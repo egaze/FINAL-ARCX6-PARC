@@ -1,0 +1,11 @@
+# colcon output
+parc_ws/build/
+parc_ws/install/
+parc_ws/log/
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor
+.vscode/browse.vc.db*
