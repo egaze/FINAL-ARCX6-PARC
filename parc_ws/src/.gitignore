@@ -1,0 +1,12 @@
+# ROS 2 generated files
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.pyc
+
+# VS Code generated database files
+.vscode/*.db
+.vscode/*.db-*
