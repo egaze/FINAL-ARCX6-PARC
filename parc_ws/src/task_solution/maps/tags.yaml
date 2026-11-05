@@ -1,0 +1,26 @@
+frame: map
+tags:
+  1:
+    x: 3.611
+    y: 3.514
+    z: 1.031
+    facing_yaw: -1.5758
+    samples: 23
+  4:
+    x: 4.941
+    y: 0.597
+    z: 1.032
+    facing_yaw: -2.9754
+    samples: 278
+  7:
+    x: 2.313
+    y: 1.923
+    z: 1.097
+    facing_yaw: -2.8077
+    samples: 124
+  9:
+    x: 0.205
+    y: -3.418
+    z: 1.049
+    facing_yaw: 1.5795
+    samples: 117
