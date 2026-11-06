@@ -3,13 +3,14 @@
     ros2 run task_solution tag_visitor --ros-args -p use_sim_time:=true
 
 For each tag in /parc/tag_order (only while the run is RUNNING):
-  1. Nav2 drives into an approach REGION in front of the tag (a 0.35 m circle 1.0 m
+  1. Nav2 drives into an approach REGION in front of the tag (a 0.25 m circle 0.9 m
      out from the tag in maps/tags.yaml, with fallback regions on an arc). It is
-     cancelled as soon as the robot is inside, or the tag is confirmed in view.
-  2. Fine alignment with the live camera detection: the robot moves until its
-     centre (base_footprint) is `standoff` m in front of the tag, on the tag's face
-     normal and facing it. Because this step uses what the camera sees, tags.yaml
-     only needs to be roughly right.
+     cancelled, without stopping, as soon as the robot is inside, or the tag is
+     confirmed in view inside the clear zone in front of it.
+  2. Fine alignment with the live camera detection: a go-to-pose controller curves
+     the robot onto the tag's face normal so its centre (base_footprint) ends
+     `standoff` m in front of the tag, already facing it. Because this step uses what
+     the camera sees, tags.yaml only needs to be roughly right.
   3. Once stopped, a fresh camera frame in which the tag is detected is sent as a
      TagVisit on /parc/tag_visit (via RefereeClient), then the robot holds still
      for 3 s.
@@ -35,7 +36,7 @@ from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.duration import Duration
-from rclpy.executors import MultiThreadedExecutor
+from rclpy.executors import ExternalShutdownException, MultiThreadedExecutor
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
 from rclpy.time import Time
@@ -75,19 +76,34 @@ class TagVisitor(Node):
         # region_radius around a point approach_distance out from the tag. The arena
         # keeps 1.5 m x 1.2 m in front of every tag clear. Fallback regions sit on an
         # arc around the tag (approach_angles_deg from the tag's face direction).
-        self.declare_parameter('approach_distance', 0.75)  # m, region centre to tag
-        self.declare_parameter('region_radius', 0.20)      # m: anywhere inside counts as arrived
+        self.declare_parameter('approach_distance', 0.90)  # m, region centre to tag
+        self.declare_parameter('region_radius', 0.25)      # m: anywhere inside counts as arrived
         self.declare_parameter('approach_angles_deg', [0.0, 25.0, -25.0, 50.0, -50.0])
         self.declare_parameter('nav_timeout_s', 45.0)      # per region
         self.declare_parameter('tag_nav_budget_s', 120.0)  # all regions of one tag together
-        self.declare_parameter('back_out_distance', 0.35)  # m reversed after each visit (clear zone)
+        self.declare_parameter('back_out_distance', 0.30)  # m reversed after each visit (clear zone)
+        self.declare_parameter('back_out_speed', 0.30)     # m/s (velocity smoother allows -0.3)
         self.declare_parameter('stuck_time_s', 8.0)        # no 0.1 m progress for this long = stuck
-        self.declare_parameter('handoff_range', 1.0)       # m: tag confirmed this close -> stop Nav2, align
+        # Hand off from Nav2 to the camera once the tag is confirmed AND the camera is
+        # inside the clear zone the arena keeps in front of every tag (1.5 m deep,
+        # 1.2 m wide), so the camera-driven curve cannot meet an obstacle.
+        self.declare_parameter('handoff_range', 1.4)       # m: max depth along the tag normal
+        self.declare_parameter('handoff_lateral', 0.45)    # m: max offset across the normal
         self.declare_parameter('align_timeout_s', 20.0)
-        self.declare_parameter('pos_tolerance', 0.04)      # m (judged distance is 0.5 m; 4 cm is ample)
-        self.declare_parameter('yaw_tolerance', 0.06)      # rad (~3.4 deg; the rule allows 12 deg)
-        self.declare_parameter('max_linear', 0.25)         # m/s during alignment (robot max 0.5)
+        self.declare_parameter('pos_tolerance', 0.02)      # m, range error to the tag (rule: 0.5 m)
+        self.declare_parameter('yaw_tolerance', 0.10)      # rad, pointing at the tag (~5.7; rule 12 deg)
+        # Within this distance of the standoff point: only point at the tag and fix the
+        # range; never turn away from it (the sign stand is ~0.1 m ahead of the bumper).
+        self.declare_parameter('final_radius', 0.15)
+        self.declare_parameter('max_linear', 0.35)         # m/s during alignment (robot max 0.5)
         self.declare_parameter('max_angular', 1.0)         # rad/s during alignment (robot max 1.0)
+        # Go-to-pose gains. Stable for k_rho > 0, k_beta < 0, k_alpha + 5/3 k_beta - 2/pi k_rho > 0.
+        # Tuned in a kinematic sim (accel limits, 10 handoff poses): ~28% faster than the
+        # old drive-then-turn alignment. A higher max_linear only widens the curve.
+        self.declare_parameter('k_rho', 2.0)
+        self.declare_parameter('k_alpha', 3.0)
+        self.declare_parameter('k_beta', -0.6)
+        self.declare_parameter('target_smoothing', 0.4)    # 0..1, weight of each new detection
         # Tag cross-checks (on top of the exact AprilTag 36h11 decode in detect_tags):
         self.declare_parameter('min_consecutive', 3)       # frames in a row before a tag is trusted
         self.declare_parameter('max_map_offset', 1.0)      # m: detected tag must be this close to tags.yaml
@@ -229,8 +245,10 @@ class TagVisitor(Node):
         return t['x'] + d * math.cos(a), t['y'] + d * math.sin(a), wrap(a + math.pi)
 
     def live_target(self, tag, max_age=0.5):
-        """Standoff pose (x, y, yaw) in the odom frame from a recent camera detection,
-        plus the camera-to-tag range. None if the tag was not seen recently."""
+        """From a recent camera detection: (standoff pose (x, y, yaw) in odom,
+        camera-to-tag range, (depth, lateral) of the camera in the tag's frame,
+        detection stamp). depth is along the face normal, lateral across it.
+        None if the tag was not seen recently."""
         with self.lock:
             det = self.detections.get(tag)
         if det is None:
@@ -251,40 +269,103 @@ class TagVisitor(Node):
         yaw = wrap(face + math.pi)
         x = pos[0] + self.standoff * math.cos(face)
         y = pos[1] + self.standoff * math.sin(face)
-        return (x, y, yaw), float(np.linalg.norm(tvec))
+        rng = float(np.linalg.norm(tvec))
+        # Camera position seen from the tag: -tvec split along / across the face normal.
+        depth = float(-np.dot(tvec, normal))
+        lateral = math.sqrt(max(0.0, rng * rng - depth * depth))
+        # pose: standoff point, facing yaw, and the tag centre (all odom frame)
+        return (x, y, yaw, float(pos[0]), float(pos[1])), rng, (depth, lateral), stamp
+
+    def map_target(self, tag):
+        """Same tuple as live_target()[0], but from tags.yaml (map frame) converted to
+        odom: (standoff x, y, facing yaw, tag x, tag y). None without map -> odom."""
+        try:
+            tf = self.tf_buffer.lookup_transform(self.odom_frame, self.map_frame, Time())
+        except tf2_ros.TransformException:
+            return None
+        th = yaw_of(tf.transform.rotation)
+        c, s = math.cos(th), math.sin(th)
+        ox, oy = tf.transform.translation.x, tf.transform.translation.y
+        t = self.tags[tag]
+        face = float(t['facing_yaw'])
+        to_odom = lambda x, y: (ox + c * x - s * y, oy + s * x + c * y)  # noqa: E731
+        sx, sy = to_odom(t['x'] + self.standoff * math.cos(face),
+                         t['y'] + self.standoff * math.sin(face))
+        gx, gy = to_odom(t['x'], t['y'])
+        return sx, sy, wrap(face + math.pi + th), gx, gy
 
     # ------------------------------------------------------------- navigation
-    def cancel_all_nav(self):
-        """Cancel every Nav2 navigate_to_pose goal and stop the wheels."""
+    def cancel_all_nav(self, stop=True):
+        """Cancel every Nav2 navigate_to_pose goal and (unless stop=False, for a
+        moving handoff to the camera alignment) stop the wheels."""
         if self.nav_cancel_all.service_is_ready():
             self.nav_cancel_all.call_async(CancelGoal.Request())   # zero id/stamp = all goals
-        self.stop()
+        if stop:
+            self.stop()
 
-    def back_out(self, distance, speed=0.2):
+    def back_out(self, distance, speed=0.3):
         """Reverse straight back `distance` m (odometry), e.g. away from a tag just
         visited: the area in front of every tag is kept clear, and Nav2 cannot plan
         from right next to the tag post."""
         start = self.pose2d(self.odom_frame)
         if start is None or distance <= 0.0:
-            return
+            return 0.0
         end = self.now() + Duration(seconds=distance / speed + 3.0)
         cmd = Twist()
         cmd.linear.x = -speed
+        moved = 0.0
         while rclpy.ok() and self.referee.running and self.now() < end:
             me = self.pose2d(self.odom_frame)
-            if me is not None and math.hypot(me[0] - start[0], me[1] - start[1]) >= distance:
-                break
+            if me is not None:
+                moved = math.hypot(me[0] - start[0], me[1] - start[1])
+                if moved >= distance:
+                    break
+            self.cmd_pub.publish(cmd)
+            time.sleep(0.05)
+        self.stop()
+        return moved
+
+    def turn_by(self, angle, speed=0.6, timeout=4.0):
+        """Turn in place by `angle` rad (odometry), with a time limit."""
+        start = self.pose2d(self.odom_frame)
+        if start is None:
+            return
+        goal = wrap(start[2] + angle)
+        end = self.now() + Duration(seconds=timeout)
+        cmd = Twist()
+        while rclpy.ok() and self.referee.running and self.now() < end:
+            me = self.pose2d(self.odom_frame)
+            if me is not None:
+                err = wrap(goal - me[2])
+                if abs(err) < 0.05:
+                    break
+                cmd.angular.z = math.copysign(speed, err)
             self.cmd_pub.publish(cmd)
             time.sleep(0.05)
         self.stop()
 
+    def leave_tag(self, tag, distance, speed):
+        """Back away from a tag post. If the reverse is blocked (e.g. by the collision
+        monitor), turn a little each way and retry: left next to the post, Nav2 cannot
+        move the robot and every later tag fails too."""
+        log = self.get_logger()
+        moved = self.back_out(distance, speed)
+        for turn in (0.35, -0.70):
+            if moved >= 0.5 * distance or not self.referee.running:
+                break
+            log.warn(f'Tag {tag}: back-out blocked after {moved:.2f} m; turning '
+                     f'{math.degrees(turn):+.0f} deg and retrying.')
+            self.turn_by(turn)
+            moved += self.back_out(distance - moved, speed)
+        log.info(f'Tag {tag}: backed out {moved:.2f} m.')
+
     def navigate(self, x, y, yaw, tag, radius, timeout):
-        """Drive with Nav2 into the region of `radius` around (x, y). Returns
-        'in_region' (Nav2 cancelled as soon as the robot centre is inside; heading
-        does not matter, the camera alignment turns the robot), 'arrived' (Nav2
-        finished), 'tag_in_view' (target tag confirmed within handoff_range: Nav2
-        cancelled, camera takes over) or 'failed'. Every wait has a wall-clock limit so a lost Nav2 reply cannot
-        block the run."""
+        """Drive with Nav2 to the approach pose (x, y, yaw), which faces the tag; the
+        alignment then curves it round to face the tag. Returns 'in_region' (robot
+        centre inside `radius`, any heading: Nav2 cancelled without stopping, the
+        alignment takes over), 'arrived' (Nav2 finished), 'tag_in_view' (tag
+        confirmed in its clear zone: same handoff), 'stuck' or 'failed'. Every wait
+        has a wall-clock limit so a lost Nav2 reply cannot block the run."""
         log = self.get_logger()
         goal = NavigateToPose.Goal()
         goal.pose = PoseStamped()
@@ -309,6 +390,7 @@ class TagVisitor(Node):
             return 'failed'
         res = handle.get_result_async()
         handoff = float(self.get_parameter('handoff_range').value)
+        handoff_lat = float(self.get_parameter('handoff_lateral').value)
         deadline = self.now() + Duration(seconds=timeout)
         wall_end = time.monotonic() + 3 * timeout       # in case the sim clock stalls
         next_log = time.monotonic()
@@ -316,9 +398,11 @@ class TagVisitor(Node):
         best, best_at = None, self.now()
         while rclpy.ok() and not res.done():
             me = self.pose2d(self.map_frame)
-            if me is not None:
-                d = math.hypot(x - me[0], y - me[1])
-                if best is None or d < best - 0.10:
+            d = math.hypot(x - me[0], y - me[1]) if me is not None else None
+            if d is not None:
+                if d <= radius:
+                    best_at = self.now()       # finishing the final curve is progress
+                elif best is None or d < best - 0.10:
                     best, best_at = d, self.now()
                 elif self.now() - best_at > stuck_time:
                     handle.cancel_goal_async()
@@ -326,17 +410,22 @@ class TagVisitor(Node):
                     log.warn(f'Tag {tag}: no progress for {stuck_time.nanoseconds * 1e-9:.0f} s;'
                              ' backing up and retrying.')
                     return 'stuck'
-            if me is not None and math.hypot(x - me[0], y - me[1]) <= radius:
+            if d is not None and d <= radius:
+                # Any heading: the alignment curves the robot round to face the tag.
                 handle.cancel_goal_async()
-                self.cancel_all_nav()
-                log.info(f'Tag {tag}: inside the approach region; aligning with the camera.')
+                self.cancel_all_nav(stop=False)
+                log.info(f'Tag {tag}: inside the approach region; aligning (heading '
+                         f'{math.degrees(abs(wrap(yaw - me[2]))):.0f} deg off facing the tag).')
                 return 'in_region'
             live = self.live_target(tag)
-            if live is not None and live[1] <= handoff:
-                handle.cancel_goal_async()
-                self.cancel_all_nav()
-                log.info(f'Tag {tag}: in view at {live[1]:.2f} m; stopping Nav2, aligning with the camera.')
-                return 'tag_in_view'
+            if live is not None:
+                depth, lateral = live[2]
+                if 0.0 < depth <= handoff and lateral <= handoff_lat:
+                    handle.cancel_goal_async()
+                    self.cancel_all_nav(stop=False)
+                    log.info(f'Tag {tag}: in view in its clear zone ({depth:.2f} m out, '
+                             f'{lateral:.2f} m to the side); handing over to the camera.')
+                    return 'tag_in_view'
             if not self.referee.running or self.now() > deadline or time.monotonic() > wall_end:
                 handle.cancel_goal_async()
                 self.cancel_all_nav()
@@ -355,33 +444,58 @@ class TagVisitor(Node):
         return 'arrived' if ok else 'failed'
 
     def align(self, tag):
-        """Move until the robot centre is `standoff` m from the tag, square to its face."""
+        """Move until the robot centre is `standoff` m from the tag, square to its face.
+
+        Go-to-pose (polar coordinates) controller: it steers on alpha (target point
+        relative to the robot heading) and beta (final heading relative to the line to
+        the target), so the robot curves onto the tag's face normal and arrives already
+        facing the tag instead of driving to the point and then turning in place."""
         max_v = float(self.get_parameter('max_linear').value)
         max_w = float(self.get_parameter('max_angular').value)
         pos_tol = float(self.get_parameter('pos_tolerance').value)
         yaw_tol = float(self.get_parameter('yaw_tolerance').value)
+        k_rho = float(self.get_parameter('k_rho').value)
+        k_alpha = float(self.get_parameter('k_alpha').value)
+        k_beta = float(self.get_parameter('k_beta').value)
+        smooth = float(self.get_parameter('target_smoothing').value)
         deadline = self.now() + Duration(
             seconds=float(self.get_parameter('align_timeout_s').value))
-        target = None          # (x, y, yaw) in odom, refreshed whenever the tag is seen
+        final_radius = float(self.get_parameter('final_radius').value)
+        target = None          # (x, y, yaw, tag_x, tag_y) in odom
+        seen = False           # target comes from the camera (else from tags.yaml)
+        last_stamp = None
         search_dir = 1.0
         rate = 0.05
-        in_place = False       # position reached: only re-drive if it drifts 2x the tolerance
+        final = False          # close to the standoff point: hold the tag in view, fix range only
 
         while rclpy.ok() and self.referee.running:
             if self.now() > deadline:
                 self.stop()
                 self.get_logger().warn(f'Tag {tag}: alignment timed out.')
-                return target is not None
+                return seen
             live = self.live_target(tag)
-            if live is not None:
-                target = live[0]
+            if live is not None and live[3] != last_stamp:
+                last_stamp = live[3]
+                if not seen:
+                    target, seen = live[0], True        # camera replaces the tags.yaml prior
+                else:
+                    # Low-pass the target: single-frame pose noise must not make it wiggle.
+                    n, o = live[0], target
+                    target = (o[0] + smooth * (n[0] - o[0]), o[1] + smooth * (n[1] - o[1]),
+                              wrap(o[2] + smooth * wrap(n[2] - o[2])),
+                              o[3] + smooth * (n[3] - o[3]), o[4] + smooth * (n[4] - o[4]))
+            if not seen:
+                # Not seen yet: steer on where tags.yaml says the tag is, so the robot keeps
+                # moving and curves round to face it (it then comes into view) instead of
+                # stopping to spin and search.
+                target = self.map_target(tag)
             me = self.pose2d(self.odom_frame)
             if me is None:
                 time.sleep(rate)
                 continue
 
             if target is None:
-                # Not seen yet: turn towards where tags.yaml says it is, then search.
+                # No map pose either: turn towards where tags.yaml says it is, then search.
                 cmd = Twist()
                 mp = self.pose2d(self.map_frame)
                 if mp is not None:
@@ -395,35 +509,42 @@ class TagVisitor(Node):
                 time.sleep(rate)
                 continue
 
-            tx, ty, tyaw = target
+            tx, ty, tyaw, gx, gy = target
             dx, dy = tx - me[0], ty - me[1]
             dist = math.hypot(dx, dy)
             cmd = Twist()
-            if dist <= pos_tol:
-                in_place = True
-            elif dist > 2 * pos_tol:
-                in_place = False
-            if not in_place:
-                heading = math.atan2(dy, dx)
-                err = wrap(heading - me[2])
-                direction = 1.0
-                if abs(err) > math.pi / 2:          # target is behind: reverse to it
-                    err = wrap(err - math.pi)
-                    direction = -1.0
-                cmd.angular.z = max(-max_w, min(max_w, 2.5 * err))
-                # Drive while turning: full speed when pointing at the target, fading
-                # to zero at ~35 deg off, instead of stopping to turn first.
-                if abs(err) < 0.6:
-                    v = min(max_v, 1.2 * dist + 0.03) * max(0.0, math.cos(err * 2.6))
-                    cmd.linear.x = direction * v
+            if dist <= final_radius:
+                final = True
+            elif dist > 2 * final_radius:
+                final = False
+            if not final:
+                # Go-to-pose curve onto the face normal (inside the tag's clear zone).
+                phi = math.atan2(dy, dx)                # direction to the target point
+                alpha = wrap(phi - me[2])
+                beta = wrap(tyaw - phi)
+                cmd.angular.z = max(-max_w, min(max_w, k_alpha * alpha + k_beta * beta))
+                if abs(alpha) < 1.2:                    # else turn towards it first
+                    cmd.linear.x = min(max_v, k_rho * dist + 0.03) * max(0.0, math.cos(alpha))
             else:
-                err = wrap(tyaw - me[2])
-                if abs(err) <= yaw_tol:
+                # Final phase. The rule is "0.5 m from the tag, facing it", so never turn
+                # away from the tag to chase a point a few cm to the side (that swung the
+                # robot into the sign stand). Point at the tag centre and only drive
+                # forward/back along that line until the range is right.
+                bearing = wrap(math.atan2(gy - me[1], gx - me[0]) - me[2])
+                range_err = math.hypot(gx - me[0], gy - me[1]) - self.standoff
+                if abs(range_err) <= pos_tol and abs(bearing) <= yaw_tol:
                     self.stop()
-                    return True
-                cmd.angular.z = max(-max_w, min(max_w, 2.5 * err))
-                if abs(cmd.angular.z) < 0.15:     # below this the wheels barely turn it
-                    cmd.angular.z = math.copysign(0.15, err)
+                    if seen:
+                        return True
+                    # In place on the tags.yaml estimate only: wait for the camera.
+                    time.sleep(rate)
+                    continue
+                if abs(bearing) > yaw_tol:
+                    w = max(-max_w, min(max_w, 2.5 * bearing))
+                    cmd.angular.z = w if abs(w) >= 0.15 else math.copysign(0.15, bearing)
+                if abs(range_err) > pos_tol and abs(bearing) < 0.5:
+                    v = min(max_v, 1.5 * abs(range_err) + 0.03) * math.cos(bearing)
+                    cmd.linear.x = math.copysign(v, range_err)   # negative = back up
             self.cmd_pub.publish(cmd)
             time.sleep(rate)
         self.stop()
@@ -461,6 +582,9 @@ class TagVisitor(Node):
             self.streak.clear()
             self.detections.pop(tag, None)
         self.detecting = True           # look for the tag while driving, to hand off early
+        back_d = float(self.get_parameter('back_out_distance').value)
+        back_v = float(self.get_parameter('back_out_speed').value)
+        outcome = 'failed'
         for i, angle in enumerate(angles):
             left = budget_end - time.monotonic()
             if left <= 5.0:
@@ -472,7 +596,7 @@ class TagVisitor(Node):
                      f' [region {i + 1}/{len(angles)}]')
             outcome = self.navigate(x, y, yaw, tag, radius, min(per_region, left))
             if outcome == 'stuck':
-                self.back_out(float(self.get_parameter('back_out_distance').value))
+                self.leave_tag(tag, back_d, back_v)
                 left = budget_end - time.monotonic()
                 if left > 5.0:
                     outcome = self.navigate(x, y, yaw, tag, radius, min(per_region, left))
@@ -481,28 +605,34 @@ class TagVisitor(Node):
             if not self.referee.running:
                 self.detecting = False
                 return False
-        self.cancel_all_nav()           # Nav2 must not drive while the camera alignment does
+        # Nav2 must not drive while the camera alignment does. After a handoff the robot
+        # keeps rolling (no stop) and the alignment takes over its motion directly.
+        self.cancel_all_nav(stop=outcome not in ('in_region', 'tag_in_view'))
         # Even if Nav2 did not report success, try the camera alignment from here.
         self.detecting = True
         try:
+            t_align = time.monotonic()
             if not self.align(tag):
                 log.warn(f'Tag {tag}: could not align precisely; reporting from here if visible.')
             self.stop()
-            self.sleep(0.3)                   # let the robot settle before the photo
+            log.info(f'Tag {tag}: camera alignment took {time.monotonic() - t_align:.1f} s (wall).')
+            self.sleep(0.2)                   # let the robot settle before the photo
             img, info = self.capture(tag)
         finally:
             self.detecting = False
+        reported = False
         if img is None:
             log.error(f'Tag {tag}: not visible in the camera; not reporting it.')
-            return False
-        log.info(f'Tag {tag}: camera-to-tag range {info[0]:.3f} m, '
-                 f'{info[1]:.1f} deg off square-on.')
-        if self.referee.report_tag(tag, img):
-            self.sleep(VISIT_HOLD_S + 0.1)    # hold still as the rules require
-            # Leave the tag post before planning to the next tag (Nav2 cannot plan from here).
-            self.back_out(float(self.get_parameter('back_out_distance').value))
-            return True
-        return False
+        else:
+            log.info(f'Tag {tag}: camera-to-tag range {info[0]:.3f} m, '
+                     f'{info[1]:.1f} deg off square-on.')
+            if self.referee.report_tag(tag, img):
+                self.sleep(VISIT_HOLD_S + 0.1)    # hold still as the rules require
+                reported = True
+        # Always leave the tag post, also after a failed attempt: left next to it, the
+        # collision monitor blocks Nav2 and every later tag fails too.
+        self.leave_tag(tag, back_d, back_v)
+        return reported
 
     def run(self):
         log = self.get_logger()
@@ -539,10 +669,15 @@ def main(args=None):
     executor.add_node(node)
     try:
         executor.spin()
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, ExternalShutdownException):
         pass
     finally:
-        node.stop()
+        # On Ctrl+C the context may already be shut down; publishing the final stop
+        # then raises, which made the process exit with code 1.
+        try:
+            node.stop()
+        except Exception:
+            pass
         node.destroy_node()
         if rclpy.ok():
             rclpy.shutdown()

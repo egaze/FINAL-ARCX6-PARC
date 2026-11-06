@@ -24,8 +24,9 @@ amcl:
     laser_min_range: -1.0
     laser_model_type: "likelihood_field"
     max_beams: 60
-    max_particles: 2000
-    min_particles: 500
+    # Start pose is known, so far fewer particles are needed (CPU for the sim).
+    max_particles: 800
+    min_particles: 200
     odom_frame_id: "odom"
     pf_err: 0.05
     pf_z: 0.99
@@ -52,7 +53,7 @@ velocity_smoother:
     scale_velocities: False
     feedback: "OPEN_LOOP"
     # Robot limits (gz_control.xacro): 0.5 m/s, 1.0 rad/s, 1 m/s^2, 2 rad/s^2
-    max_velocity: [0.45, 0.0, 1.0]
+    max_velocity: [0.5, 0.0, 1.0]
     min_velocity: [-0.3, 0.0, -1.0]
     max_accel: [1.0, 0.0, 2.0]
     max_decel: [-1.0, 0.0, -2.0]
@@ -106,14 +107,14 @@ controller_server:
     # DWB parameters
     FollowPath:
       plugin: "dwb_core::DWBLocalPlanner"
-      debug_trajectory_details: True
+      debug_trajectory_details: False   # publishing every trajectory costs CPU
       min_vel_x: 0.0
       min_vel_y: 0.0
-      max_vel_x: 0.45
+      max_vel_x: 0.5
       max_vel_y: 0.0
       max_vel_theta: 1.0
       min_speed_xy: 0.0
-      max_speed_xy: 0.45
+      max_speed_xy: 0.5
       min_speed_theta: 0.0
       # Add high threshold velocity for turtlebot 3 issue.
       # https://github.com/ROBOTIS-GIT/turtlebot3_simulations/issues/75
@@ -235,7 +236,9 @@ global_costmap:
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
         enabled: True
-        observation_sources: scan camera1_cloud camera2_cloud
+        # Lidar only: the depth clouds blocked every global plan to tag 4. They stay in
+        # the local costmap and collision_monitor. Was: scan camera1_cloud camera2_cloud
+        observation_sources: scan
         # 3D points from both depth cameras (task_solution/depth_obstacles), already
         # filtered to 0.10-1.25 m high: sees tabletops the lidar passes under.
         camera1_cloud:
@@ -268,7 +271,7 @@ global_costmap:
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
-        inflation_radius: 0.70
+        inflation_radius: 0.45
       always_send_full_costmap: True
   global_costmap_client:
     ros__parameters:
@@ -294,11 +297,51 @@ planner_server:
     expected_planner_frequency: 20.0
     use_sim_time: True
     planner_plugins: ["GridBased"]
+    # NavFn (x/y only). It only checks the robot centre at the start, so it can plan
+    # away from right next to a tag post. Smac Hybrid-A* (planned the final heading)
+    # rejected those starts as "Start occupied" and stalled the run. The camera
+    # alignment in tag_visitor now does the "arrive facing the tag" part instead.
     GridBased:
       plugin: "nav2_navfn_planner::NavfnPlanner"
       tolerance: 0.5
       use_astar: true
       allow_unknown: true
+    # Smac Hybrid-A* settings, kept for reference (replace the block above to use):
+    # GridBased:
+    #   plugin: "nav2_smac_planner::SmacPlannerHybrid"
+    #   motion_model_for_search: "DUBIN"     # forward only: DWB never reverses (min_vel_x 0)
+    #   minimum_turning_radius: 0.30         # m; tight enough for the arena gaps
+    #   angle_quantization_bins: 72          # 5 deg heading resolution
+    #   tolerance: 0.25                      # m, if the exact goal is blocked
+    #   allow_unknown: true
+    #   downsample_costmap: false
+    #   downsampling_factor: 1
+    #   max_iterations: 1000000
+    #   max_on_approach_iterations: 1000
+    #   max_planning_time: 1.5               # s; the laptop is CPU-bound
+    #   analytic_expansion_ratio: 3.5
+    #   analytic_expansion_max_length: 3.0
+    #   analytic_expansion_max_cost: 200.0
+    #   analytic_expansion_max_cost_override: false
+    #   reverse_penalty: 2.0
+    #   change_penalty: 0.0
+    #   non_straight_penalty: 1.2
+    #   cost_penalty: 2.0                    # stay away from obstacles where there is room
+    #   retrospective_penalty: 0.015
+    #   lookup_table_size: 20.0
+    #   cache_obstacle_heuristic: false
+    #   debug_visualizations: false
+    #   use_quadratic_cost_penalty: false
+    #   downsample_obstacle_heuristic: true
+    #   allow_primitive_interpolation: false
+    #   smooth_path: true
+    #   smoother:
+    #     max_iterations: 1000
+    #     w_smooth: 0.3
+    #     w_data: 0.2
+    #     tolerance: 1.0e-10
+    #     do_refinement: true
+    #     refinement_num: 2
 
 planner_server_rclcpp_node:
   ros__parameters:
@@ -349,7 +392,8 @@ collision_monitor:
       type: "polygon"
       action_type: "approach"
       footprint_topic: "/local_costmap/published_footprint"
-      time_before_collision: 1.5
+      # 1.5 s slowed every final approach: the tag post is ~0.3 m ahead of the bumper.
+      time_before_collision: 1.0
       simulation_time_step: 0.1
       min_points: 6
       visualize: False
