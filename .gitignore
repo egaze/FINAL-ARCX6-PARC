@@ -9,3 +9,18 @@ __pycache__/
 
 # Editor
 .vscode/browse.vc.db*
+
+# Downloaded dependencies: install on each machine instead
+# (pip install --target pydeps vosk; unzip the Vosk model into models/)
+pydeps/
+models/
+
+# Archives
+*.zip
+
+# slam_toolbox serialized maps (only for resuming mapping; Nav2 uses the .pgm + .yaml)
+*.posegraph
+parc_ws/src/task_solution/maps/*.data
+
+# Editor settings (machine-specific)
+.vscode/

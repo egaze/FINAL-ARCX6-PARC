@@ -18,6 +18,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+from nav2_common.launch import RewrittenYaml
 
 
 def generate_launch_description():
@@ -25,7 +26,10 @@ def generate_launch_description():
     slam_pkg = get_package_share_directory('slam_toolbox')
 
     return LaunchDescription([
-        DeclareLaunchArgument('use_sim_time', default_value='true'),
+        DeclareLaunchArgument('use_sim_time', default_value='true',
+                              description='false on the real robot'),
+        DeclareLaunchArgument('base_frame', default_value='base_footprint',
+                              description='robot body frame: base_footprint (sim), base_link (real robot)'),
         DeclareLaunchArgument(
             'slam_params_file',
             default_value=os.path.join(pkg, 'config', 'mapper_params_online_async.yaml')),
@@ -34,7 +38,10 @@ def generate_launch_description():
                 os.path.join(slam_pkg, 'launch', 'online_async_launch.py')),
             launch_arguments={
                 'use_sim_time': LaunchConfiguration('use_sim_time'),
-                'slam_params_file': LaunchConfiguration('slam_params_file'),
+                'slam_params_file': RewrittenYaml(
+                    source_file=LaunchConfiguration('slam_params_file'),
+                    param_rewrites={'base_frame': LaunchConfiguration('base_frame')},
+                    convert_types=True),
             }.items(),
         ),
     ])

@@ -49,6 +49,7 @@ setup(
             'tag_mapper = task_solution.tag_mapper:main',
             'tag_visitor = task_solution.tag_visitor:main',
             'depth_obstacles = task_solution.depth_obstacles:main',
+            'voice_start = task_solution.voice_start:main',
         ],
     },
 )

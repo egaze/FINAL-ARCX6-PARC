@@ -9,12 +9,19 @@ between min_height and max_height above the floor (drops the floor itself),
 removes points inside the robot's own outline, and publishes
 /depth_obstacles/<camera> as PointCloud2 in base_footprint for the costmaps and
 the collision monitor.
+
+It also publishes /depth_obstacles/<camera>_clear: the FLOOR points the camera
+sees (z below min_height). The costmaps use them for clearing only: a ray from
+the robot to a visible floor point proves the cells on the way are free, so
+stale or noisy obstacle marks are erased. Without this the obstacle cloud can
+mark but never clear, and marks pile up until no route is left.
 """
 
 import numpy as np
 import rclpy
 import tf2_ros
 from rclpy.duration import Duration
+from rclpy.executors import ExternalShutdownException
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
 from rclpy.time import Time
@@ -53,7 +60,9 @@ class DepthObstacles(Node):
         self.cams = {}
         for cam in g('cameras'):
             st = {'K': None, 'tf': None, 'last': None, 'rays': None,
-                  'pub': self.create_publisher(PointCloud2, f'depth_obstacles/{cam}', 5)}
+                  'pub': self.create_publisher(PointCloud2, f'depth_obstacles/{cam}', 5),
+                  'pub_clear': self.create_publisher(
+                      PointCloud2, f'depth_obstacles/{cam}_clear', 5)}
             self.cams[cam] = st
             self.create_subscription(
                 CameraInfo, f'/{cam}/{cam}/depth/camera_info',
@@ -93,20 +102,26 @@ class DepthObstacles(Node):
         pts = np.stack([st['rays'][0][ok] * z, st['rays'][1][ok] * z, z], axis=1)
         R, t = st['tf']
         p = pts @ R.T + t                                          # -> base_footprint
-        keep = (p[:, 2] >= self.hmin) & (p[:, 2] <= self.hmax)
         x0, x1, y0, y1 = self.box
-        keep &= ~((p[:, 0] > x0) & (p[:, 0] < x1) & (p[:, 1] > y0) & (p[:, 1] < y1))
-        p = p[keep].astype(np.float32)
+        outside = ~((p[:, 0] > x0) & (p[:, 0] < x1) & (p[:, 1] > y0) & (p[:, 1] < y1))
+        keep = (p[:, 2] >= self.hmin) & (p[:, 2] <= self.hmax) & outside
+        floor = (np.abs(p[:, 2]) < 0.05) & outside
+        st['pub'].publish(self.cloud(msg.header.stamp, p[keep]))
+        fl = p[floor]
+        fl[:, 2] = 0.0                                             # clearing rays along the floor
+        st['pub_clear'].publish(self.cloud(msg.header.stamp, fl[::2]))
 
-        cloud = PointCloud2()
-        cloud.header = Header(stamp=msg.header.stamp, frame_id=self.base)
-        cloud.height, cloud.width = 1, len(p)
-        cloud.fields = [PointField(name=n, offset=4 * i, datatype=PointField.FLOAT32, count=1)
-                        for i, n in enumerate('xyz')]
-        cloud.is_bigendian, cloud.point_step = False, 12
-        cloud.row_step, cloud.is_dense = 12 * len(p), True
-        cloud.data = p.tobytes()
-        st['pub'].publish(cloud)
+    def cloud(self, stamp, p):
+        p = np.ascontiguousarray(p, dtype=np.float32)
+        c = PointCloud2()
+        c.header = Header(stamp=stamp, frame_id=self.base)
+        c.height, c.width = 1, len(p)
+        c.fields = [PointField(name=n, offset=4 * i, datatype=PointField.FLOAT32, count=1)
+                    for i, n in enumerate('xyz')]
+        c.is_bigendian, c.point_step = False, 12
+        c.row_step, c.is_dense = 12 * len(p), True
+        c.data = p.tobytes()
+        return c
 
 
 def main(args=None):
@@ -114,7 +129,7 @@ def main(args=None):
     node = DepthObstacles()
     try:
         rclpy.spin(node)
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, ExternalShutdownException):
         pass
     finally:
         node.destroy_node()

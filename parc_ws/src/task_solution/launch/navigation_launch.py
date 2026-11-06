@@ -39,6 +39,7 @@ def generate_launch_description():
     container_name_full = (namespace, '/', container_name)
     use_respawn = LaunchConfiguration('use_respawn')
     log_level = LaunchConfiguration('log_level')
+    base_frame = LaunchConfiguration('base_frame')
 
     lifecycle_nodes = [
         'controller_server',
@@ -60,7 +61,7 @@ def generate_launch_description():
     remappings = [('/tf', 'tf'), ('/tf_static', 'tf_static')]
 
     # Create our own temporary YAML files that include substitutions
-    param_substitutions = {'autostart': autostart}
+    param_substitutions = {'autostart': autostart, 'base_frame_id': base_frame, 'robot_base_frame': base_frame, 'base_frame': base_frame}
 
     configured_params = ParameterFile(
         RewrittenYaml(
@@ -114,6 +115,11 @@ def generate_launch_description():
         'use_respawn',
         default_value='False',
         description='Whether to respawn if a node crashes. Applied when composition is disabled.',
+    )
+
+    declare_base_frame_cmd = DeclareLaunchArgument(
+        'base_frame', default_value='base_footprint',
+        description='robot body frame: base_footprint (sim), base_link (real robot)',
     )
 
     declare_log_level_cmd = DeclareLaunchArgument(
@@ -218,6 +224,7 @@ def generate_launch_description():
                 executable='depth_obstacles',
                 name='depth_obstacles',
                 output='screen',
+                parameters=[{'base_frame': base_frame}],
                 respawn=use_respawn,
                 respawn_delay=2.0,
             ),
@@ -324,6 +331,7 @@ def generate_launch_description():
     ld.add_action(declare_container_name_cmd)
     ld.add_action(declare_use_respawn_cmd)
     ld.add_action(declare_log_level_cmd)
+    ld.add_action(declare_base_frame_cmd)
     # Add the actions to launch all of the navigation nodes
     ld.add_action(load_nodes)
     ld.add_action(load_composable_nodes)

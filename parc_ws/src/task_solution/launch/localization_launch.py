@@ -43,6 +43,7 @@ def generate_launch_description():
     container_name_full = (namespace, '/', container_name)
     use_respawn = LaunchConfiguration('use_respawn')
     log_level = LaunchConfiguration('log_level')
+    base_frame = LaunchConfiguration('base_frame')
 
     lifecycle_nodes = ['map_server', 'amcl']
 
@@ -58,7 +59,7 @@ def generate_launch_description():
         RewrittenYaml(
             source_file=params_file,
             root_key=namespace,
-            param_rewrites={},
+            param_rewrites={'base_frame_id': base_frame, 'robot_base_frame': base_frame, 'base_frame': base_frame},
             convert_types=True,
         ),
         allow_substs=True,
@@ -116,6 +117,11 @@ def generate_launch_description():
         'use_respawn',
         default_value='False',
         description='Whether to respawn if a node crashes. Applied when composition is disabled.',
+    )
+
+    declare_base_frame_cmd = DeclareLaunchArgument(
+        'base_frame', default_value='base_footprint',
+        description='robot body frame: base_footprint (sim), base_link (real robot)',
     )
 
     declare_log_level_cmd = DeclareLaunchArgument(
@@ -256,6 +262,7 @@ def generate_launch_description():
     ld.add_action(declare_container_name_cmd)
     ld.add_action(declare_use_respawn_cmd)
     ld.add_action(declare_log_level_cmd)
+    ld.add_action(declare_base_frame_cmd)
 
     # Add the actions to launch all of the localiztion nodes
     ld.add_action(load_nodes)

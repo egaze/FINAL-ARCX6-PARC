@@ -18,11 +18,10 @@ package; rebuild the package after replacing them.
 """
 
 import os
-import shutil
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, LogInfo, TimerAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
@@ -38,6 +37,8 @@ def generate_launch_description():
     args = [
         DeclareLaunchArgument('use_sim_time', default_value='true',
                               description='Use the Gazebo clock (false on the real robot)'),
+        DeclareLaunchArgument('base_frame', default_value='base_footprint',
+                              description='robot body frame: base_footprint (sim), base_link (real robot)'),
         DeclareLaunchArgument('map', default_value=os.path.join(pkg, 'maps', 'arena.yaml'),
                               description='Occupancy map yaml for AMCL / Nav2'),
         DeclareLaunchArgument('tags_file', default_value=os.path.join(pkg, 'maps', 'tags.yaml'),
@@ -52,6 +53,7 @@ def generate_launch_description():
         launch_arguments={
             'map': LaunchConfiguration('map'),
             'use_sim_time': use_sim_time,
+            'base_frame': LaunchConfiguration('base_frame'),
             'params_file': params_file,
         }.items(),
     )
@@ -62,6 +64,7 @@ def generate_launch_description():
             launch_arguments={
                 'use_sim_time': use_sim_time,
                 'params_file': params_file,
+                'base_frame': LaunchConfiguration('base_frame'),
             }.items(),
         ),
     ])
@@ -75,19 +78,9 @@ def generate_launch_description():
             parameters=[{
                 'use_sim_time': use_sim_time,
                 'tags_file': LaunchConfiguration('tags_file'),
+                'base_frame': LaunchConfiguration('base_frame'),
             }],
         ),
     ])
 
-    checks = []
-    # Hybrid-graphics laptops with an NVIDIA GPU render on the integrated GPU (or the CPU)
-    # unless PRIME offload is selected. AMD / Intel GPUs use Mesa and need nothing here
-    # (on a hybrid AMD laptop, DRI_PRIME=1 picks the discrete GPU).
-    if shutil.which('nvidia-smi') and os.environ.get('__NV_PRIME_RENDER_OFFLOAD') != '1':
-        checks.append(LogInfo(msg=(
-            'WARNING: this machine has an NVIDIA GPU but this terminal does not select it '
-            '(__NV_PRIME_RENDER_OFFLOAD is not 1). If Gazebo was started from a terminal like '
-            'this, it renders on the integrated GPU or CPU and runs several times slower. '
-            'Open a new terminal (or "source ~/.bashrc") and restart the simulation.')))
-
-    return LaunchDescription(args + checks + [localization, navigation, tag_visitor])
+    return LaunchDescription(args + [localization, navigation, tag_visitor])

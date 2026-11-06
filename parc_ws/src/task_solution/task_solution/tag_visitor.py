@@ -35,7 +35,7 @@ from nav2_msgs.action import NavigateToPose
 from rclpy.action import ActionClient
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.duration import Duration
-from rclpy.executors import MultiThreadedExecutor
+from rclpy.executors import ExternalShutdownException, MultiThreadedExecutor
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
 from rclpy.time import Time
@@ -81,12 +81,13 @@ class TagVisitor(Node):
         self.declare_parameter('nav_timeout_s', 45.0)      # per region
         self.declare_parameter('tag_nav_budget_s', 120.0)  # all regions of one tag together
         self.declare_parameter('back_out_distance', 0.35)  # m reversed after each visit (clear zone)
-        self.declare_parameter('stuck_time_s', 8.0)        # no 0.1 m progress for this long = stuck
-        self.declare_parameter('handoff_range', 1.0)       # m: tag confirmed this close -> stop Nav2, align
+        self.declare_parameter('stuck_time_s', 5.0)        # no 0.1 m progress for this long = stuck
+        self.declare_parameter('handoff_range', 1.2)       # m: tag confirmed this close -> stop Nav2, align
+        self.declare_parameter('detect_range', 2.5)        # m to the tag: only then decode camera frames (CPU)
         self.declare_parameter('align_timeout_s', 20.0)
-        self.declare_parameter('pos_tolerance', 0.04)      # m (judged distance is 0.5 m; 4 cm is ample)
+        self.declare_parameter('pos_tolerance', 0.025)     # m: stops within 2.5 cm of the 0.5 m visit pose
         self.declare_parameter('yaw_tolerance', 0.06)      # rad (~3.4 deg; the rule allows 12 deg)
-        self.declare_parameter('max_linear', 0.25)         # m/s during alignment (robot max 0.5)
+        self.declare_parameter('max_linear', 0.35)         # m/s during alignment (robot max 0.5)
         self.declare_parameter('max_angular', 1.0)         # rad/s during alignment (robot max 1.0)
         # Tag cross-checks (on top of the exact AprilTag 36h11 decode in detect_tags):
         self.declare_parameter('min_consecutive', 3)       # frames in a row before a tag is trusted
@@ -123,8 +124,11 @@ class TagVisitor(Node):
         self.cmd_pub = self.create_publisher(Twist, p('cmd_vel_topic'), 10)
         self.create_subscription(CameraInfo, p('camera_info_topic'), self.on_info,
                                  qos_profile_sensor_data, callback_group=cb)
-        self.create_subscription(Image, p('image_topic'), self.on_image,
-                                 qos_profile_sensor_data, callback_group=cb)
+        # The colour image is only subscribed while detecting: decoding 30 frames/s of
+        # 640x480 in Python costs about half a CPU core, which slows the simulation.
+        self.cb = cb
+        self.image_sub = None
+        self.sub_lock = threading.Lock()
 
         self.get_logger().info(
             f'Loaded tags {sorted(self.tags)}; standoff {self.standoff:.2f} m. '
@@ -139,6 +143,18 @@ class TagVisitor(Node):
         if frame != self.map_frame:
             raise RuntimeError(f'{path} is in frame "{frame}", expected "{self.map_frame}"')
         return {int(k): v for k, v in data['tags'].items()}
+
+    def set_detecting(self, on):
+        """Turn tag detection on/off; the image subscription only exists while on."""
+        with self.sub_lock:
+            self.detecting = on
+            if on and self.image_sub is None:
+                self.image_sub = self.create_subscription(
+                    Image, self.get_parameter('image_topic').value, self.on_image,
+                    qos_profile_sensor_data, callback_group=self.cb)
+            elif not on and self.image_sub is not None:
+                self.destroy_subscription(self.image_sub)
+                self.image_sub = None
 
     def on_info(self, msg):
         if self.K is None:
@@ -260,7 +276,7 @@ class TagVisitor(Node):
             self.nav_cancel_all.call_async(CancelGoal.Request())   # zero id/stamp = all goals
         self.stop()
 
-    def back_out(self, distance, speed=0.2):
+    def back_out(self, distance, speed=0.3):
         """Reverse straight back `distance` m (odometry), e.g. away from a tag just
         visited: the area in front of every tag is kept clear, and Nav2 cannot plan
         from right next to the tag post."""
@@ -309,6 +325,7 @@ class TagVisitor(Node):
             return 'failed'
         res = handle.get_result_async()
         handoff = float(self.get_parameter('handoff_range').value)
+        detect_range = float(self.get_parameter('detect_range').value)
         deadline = self.now() + Duration(seconds=timeout)
         wall_end = time.monotonic() + 3 * timeout       # in case the sim clock stalls
         next_log = time.monotonic()
@@ -326,11 +343,15 @@ class TagVisitor(Node):
                     log.warn(f'Tag {tag}: no progress for {stuck_time.nanoseconds * 1e-9:.0f} s;'
                              ' backing up and retrying.')
                     return 'stuck'
-            if me is not None and math.hypot(x - me[0], y - me[1]) <= radius:
+            facing_ok = me is not None and abs(wrap(yaw - me[2])) <= math.radians(60.0)
+            if me is not None and math.hypot(x - me[0], y - me[1]) <= radius and facing_ok:
                 handle.cancel_goal_async()
                 self.cancel_all_nav()
                 log.info(f'Tag {tag}: inside the approach region; aligning with the camera.')
                 return 'in_region'
+            if me is not None:
+                t = self.tags[tag]
+                self.set_detecting(math.hypot(t['x'] - me[0], t['y'] - me[1]) <= detect_range)
             live = self.live_target(tag)
             if live is not None and live[1] <= handoff:
                 handle.cancel_goal_async()
@@ -374,7 +395,15 @@ class TagVisitor(Node):
                 return target is not None
             live = self.live_target(tag)
             if live is not None:
-                target = live[0]
+                new = live[0]
+                if target is None:
+                    target = new
+                else:
+                    # Low-pass the target so camera jitter does not make the robot hunt.
+                    a = 0.3
+                    target = (target[0] + a * (new[0] - target[0]),
+                              target[1] + a * (new[1] - target[1]),
+                              wrap(target[2] + a * wrap(new[2] - target[2])))
             me = self.pose2d(self.odom_frame)
             if me is None:
                 time.sleep(rate)
@@ -404,18 +433,24 @@ class TagVisitor(Node):
             elif dist > 2 * pos_tol:
                 in_place = False
             if not in_place:
+                # Polar pose controller: one smooth curve that arrives at the stop point
+                # already facing the tag, instead of turn -> drive -> turn.
+                #   alpha: target direction relative to our heading
+                #   beta:  final heading relative to the target direction
                 heading = math.atan2(dy, dx)
-                err = wrap(heading - me[2])
+                alpha = wrap(heading - me[2])
+                beta = wrap(tyaw - heading)
                 direction = 1.0
-                if abs(err) > math.pi / 2:          # target is behind: reverse to it
-                    err = wrap(err - math.pi)
+                if abs(alpha) > math.pi / 2:        # target behind (overshoot): reverse to it
+                    alpha = wrap(alpha - math.pi)
+                    beta = wrap(beta - math.pi)
                     direction = -1.0
-                cmd.angular.z = max(-max_w, min(max_w, 2.5 * err))
-                # Drive while turning: full speed when pointing at the target, fading
-                # to zero at ~35 deg off, instead of stopping to turn first.
-                if abs(err) < 0.6:
-                    v = min(max_v, 1.2 * dist + 0.03) * max(0.0, math.cos(err * 2.6))
-                    cmd.linear.x = direction * v
+                k_rho, k_alpha, k_beta = 1.2, 2.5, -0.8   # stable: k_rho>0, k_beta<0, k_alpha>k_rho
+                w = k_alpha * alpha + k_beta * beta
+                cmd.angular.z = max(-max_w, min(max_w, w))
+                # Full speed when roughly pointing at the target, easing off as alpha grows
+                v = min(max_v, k_rho * dist + 0.03) * max(0.0, math.cos(min(abs(alpha), 1.4)))
+                cmd.linear.x = direction * v
             else:
                 err = wrap(tyaw - me[2])
                 if abs(err) <= yaw_tol:
@@ -460,7 +495,7 @@ class TagVisitor(Node):
         with self.lock:
             self.streak.clear()
             self.detections.pop(tag, None)
-        self.detecting = True           # look for the tag while driving, to hand off early
+        self.set_detecting(True)           # look for the tag while driving, to hand off early
         for i, angle in enumerate(angles):
             left = budget_end - time.monotonic()
             if left <= 5.0:
@@ -479,19 +514,28 @@ class TagVisitor(Node):
             if outcome not in ('failed', 'stuck'):
                 break
             if not self.referee.running:
-                self.detecting = False
+                self.set_detecting(False)
                 return False
         self.cancel_all_nav()           # Nav2 must not drive while the camera alignment does
         # Even if Nav2 did not report success, try the camera alignment from here.
-        self.detecting = True
+        self.set_detecting(True)
         try:
-            if not self.align(tag):
-                log.warn(f'Tag {tag}: could not align precisely; reporting from here if visible.')
-            self.stop()
-            self.sleep(0.3)                   # let the robot settle before the photo
-            img, info = self.capture(tag)
+            img = info = None
+            for attempt in (1, 2):
+                aligned = self.align(tag)
+                self.stop()
+                self.sleep(0.3)               # let the robot settle before the photo
+                img, info = self.capture(tag)
+                if (aligned and img is not None) or attempt == 2 or not self.referee.running:
+                    break
+                # Second try: back into the clear space in front of the tag and align again.
+                log.warn(f'Tag {tag}: alignment {"failed" if not aligned else "lost the tag"};'
+                         ' backing out and trying once more.')
+                self.back_out(0.4)
+            if img is not None and not aligned:
+                log.warn(f'Tag {tag}: could not align precisely; reporting from here.')
         finally:
-            self.detecting = False
+            self.set_detecting(False)
         if img is None:
             log.error(f'Tag {tag}: not visible in the camera; not reporting it.')
             return False
@@ -523,6 +567,16 @@ class TagVisitor(Node):
                     continue
                 self.visit(tag)
             self.stop()
+            # Second pass for any tag that failed, while there is time left (a missed tag
+            # scores nothing; giving up early saves nothing).
+            for tag in list(self.referee.remaining_tags):
+                left = self.referee.time_left_s
+                if not self.referee.running or (left is not None and left < 60.0):
+                    break
+                log.warn(f'Tag {tag}: retrying ({left:.0f} s left).' if left is not None
+                         else f'Tag {tag}: retrying.')
+                self.visit(tag)
+            self.stop()
             if self.referee.running:
                 missing = self.referee.remaining_tags
                 log.warn(f'Could not report tags {missing}; ending the run.')
@@ -539,10 +593,11 @@ def main(args=None):
     executor.add_node(node)
     try:
         executor.spin()
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, ExternalShutdownException):
         pass
     finally:
-        node.stop()
+        if rclpy.ok():
+            node.stop()             # cannot publish once ROS has shut down (Ctrl+C)
         node.destroy_node()
         if rclpy.ok():
             rclpy.shutdown()

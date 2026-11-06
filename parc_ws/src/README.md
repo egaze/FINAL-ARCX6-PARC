@@ -274,3 +274,29 @@ run takes longer on the wall clock, and nodes must use `use_sim_time`.
 - [realsense_gazebo_plugin](https://github.com/pal-robotics/realsense_gazebo_plugin)
 - [realsense-ros](https://github.com/realsenseai/realsense-ros)
 - [RobotCAD](https://github.com/drfenixion/freecad.robotcad)
+
+## Edit
+### To do in each terminal
+`source /opt/ros/jazzy/setup.bash && source ~/FINAL-ARCX6-PARC/parc_ws/install/setup.bash && source install/setup.bash `
+
+### Commands to run
+1. `ros2 launch parc_robot_bringup phase2_hard.launch.py seed:=1`
+2. `ros2 launch task_solution task_solution.launch.py map:=/home/jachin/FINAL-ARCX6-PARC/parc_ws/src/task_solution/maps/nov5_sd1_map_save.yaml tags_file:=/home/jachin/FINAL-ARCX6-PARC/parc_ws/src/task_solution/maps/tags.yaml`
+3. ` ros2 launch parc_referee referee.launch.py odom_topic:=/botwheel_explorer/odom ` and go to [Link](http://localhost:8080/judge?token=parc2026)
+4. `ros2 run task_solution start_run` or ` ros2 run task_solution voice_start --ros-args -p model_path:=/home/jachin/FINAL-ARCX6-PARC/models/vosk-model-small-en-us-0.15 ` to use voice cmd
+
+### For mapping
+1. ` ros2 launch parc_robot_bringup phase2_hard.launch.py seed:=1 `
+2. ` ros2 launch task_solution slam_launch.py ` 
+3. ` ros2 run task_solution tag_mapper `
+
+### Setup for voice
+1. ` pip install --target /home/jachin/FINAL-ARCX6-PARC/pydeps vosk `
+2. ```
+    mkdir -p /home/jachin/FINAL-ARCX6-PARC/models
+    cd /home/jachin/FINAL-ARCX6-PARC/models
+    wget https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
+    unzip vosk-model-small-en-us-0.15.zip
+    ```
+3. ` export PYTHONPATH=/home/jachin/FINAL-ARCX6-PARC/pydeps:$PYTHONPATH `
+
