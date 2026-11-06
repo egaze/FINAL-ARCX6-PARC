@@ -1,0 +1,73 @@
+{
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_custom_target"
+		],
+		"files" : 
+		[
+			"/home/jachin/FINAL-ARCX6-PARC/build/parc_msgs/parc_msgs__rs/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			}
+		]
+	},
+	"id" : "parc_msgs__rs::@38a13a4382f30e921ddd",
+	"name" : "parc_msgs__rs",
+	"paths" : 
+	{
+		"build" : "parc_msgs__rs",
+		"source" : "/home/jachin/FINAL-ARCX6-PARC/build/parc_msgs/parc_msgs__rs"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"isGenerated" : true,
+			"path" : "/home/jachin/FINAL-ARCX6-PARC/build/parc_msgs/parc_msgs__rs/CMakeFiles/parc_msgs__rs",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/jachin/FINAL-ARCX6-PARC/build/parc_msgs/parc_msgs__rs/CMakeFiles/parc_msgs__rs.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/jachin/FINAL-ARCX6-PARC/build/parc_msgs/rosidl_generator_rs/parc_msgs/rust/src/lib.rs.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

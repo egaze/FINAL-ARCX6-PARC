@@ -1,0 +1,29 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from parc_msgs/msg/TagVisit.msg
+// generated code does not contain a copyright notice
+
+#include "sensor_msgs/msg/CompressedImage.idl"
+#include "std_msgs/msg/Header.idl"
+
+module parc_msgs {
+  module msg {
+    @verbatim (language="comment", text=
+      "Published once by the team on /parc/tag_visit at each tag, while the robot is" "\n"
+      "stopped in the visit pose (0.5 m from the tag, facing it within +-12 degrees)." "\n"
+      "After publishing, the robot must hold the pose for at least 3 seconds." "\n"
+      "QoS: reliable, depth 10.")
+    struct TagVisit {
+      @verbatim (language="comment", text=
+        "header.stamp: the moment of the visit. header.frame_id: the camera frame used.")
+      std_msgs::msg::Header header;
+
+      @verbatim (language="comment", text=
+        "AprilTag 36h11 ID of the tag being visited (1, 4, 7 or 9).")
+      uint8 tag_id;
+
+      @verbatim (language="comment", text=
+        "JPEG image from a robot camera in which the tag is clearly visible.")
+      sensor_msgs::msg::CompressedImage image;
+    };
+  };
+};

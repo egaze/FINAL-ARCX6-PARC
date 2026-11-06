@@ -1,0 +1,51 @@
+[1.588s] Invoking command in '/home/jachin/FINAL-ARCX6-PARC/parc_ws/src/parc_referee': AMENT_PREFIX_PATH=/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/jachin/FINAL-ARCX6-PARC/build/parc_referee/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/parc_referee build --build-base /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build install --record /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/install.log --single-version-externally-managed install_data
+[1.956s] running egg_info
+[1.957s] creating ../../../build/parc_referee/parc_referee.egg-info
+[1.985s] writing ../../../build/parc_referee/parc_referee.egg-info/PKG-INFO
+[1.986s] writing dependency_links to ../../../build/parc_referee/parc_referee.egg-info/dependency_links.txt
+[1.986s] writing entry points to ../../../build/parc_referee/parc_referee.egg-info/entry_points.txt
+[1.986s] writing requirements to ../../../build/parc_referee/parc_referee.egg-info/requires.txt
+[1.986s] writing top-level names to ../../../build/parc_referee/parc_referee.egg-info/top_level.txt
+[1.986s] writing manifest file '../../../build/parc_referee/parc_referee.egg-info/SOURCES.txt'
+[2.044s] reading manifest file '../../../build/parc_referee/parc_referee.egg-info/SOURCES.txt'
+[2.045s] writing manifest file '../../../build/parc_referee/parc_referee.egg-info/SOURCES.txt'
+[2.045s] running build
+[2.045s] running build_py
+[2.046s] creating /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build
+[2.046s] creating /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib
+[2.046s] creating /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib/parc_referee
+[2.046s] copying parc_referee/referee_node.py -> /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib/parc_referee
+[2.046s] copying parc_referee/tag_check.py -> /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib/parc_referee
+[2.046s] copying parc_referee/web_server.py -> /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib/parc_referee
+[2.046s] copying parc_referee/example_team.py -> /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib/parc_referee
+[2.046s] copying parc_referee/run_state.py -> /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib/parc_referee
+[2.047s] running install
+[2.054s] running install_lib
+[2.082s] creating /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee
+[2.083s] copying /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib/parc_referee/referee_node.py -> /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee
+[2.083s] copying /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib/parc_referee/tag_check.py -> /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee
+[2.083s] copying /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib/parc_referee/web_server.py -> /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee
+[2.083s] copying /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib/parc_referee/example_team.py -> /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee
+[2.083s] copying /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build/lib/parc_referee/run_state.py -> /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee
+[2.084s] byte-compiling /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee/referee_node.py to referee_node.cpython-312.pyc
+[2.086s] byte-compiling /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee/tag_check.py to tag_check.cpython-312.pyc
+[2.086s] byte-compiling /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee/web_server.py to web_server.cpython-312.pyc
+[2.088s] byte-compiling /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee/example_team.py to example_team.cpython-312.pyc
+[2.089s] byte-compiling /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee/run_state.py to run_state.cpython-312.pyc
+[2.094s] running install_data
+[2.094s] creating /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/share/ament_index
+[2.094s] creating /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/share/ament_index/resource_index
+[2.094s] creating /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/share/ament_index/resource_index/packages
+[2.094s] copying resource/parc_referee -> /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/share/ament_index/resource_index/packages
+[2.095s] copying package.xml -> /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/share/parc_referee
+[2.095s] creating /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/share/parc_referee/launch
+[2.095s] copying launch/referee.launch.py -> /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/share/parc_referee/launch
+[2.096s] creating /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/share/parc_referee/web
+[2.096s] copying web/index.html -> /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/share/parc_referee/web
+[2.096s] running install_egg_info
+[2.129s] Copying ../../../build/parc_referee/parc_referee.egg-info to /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages/parc_referee-1.0.0-py3.12.egg-info
+[2.131s] running install_scripts
+[2.332s] Installing example_team script to /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/parc_referee
+[2.333s] Installing referee script to /home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/parc_referee
+[2.333s] writing list of installed files to '/home/jachin/FINAL-ARCX6-PARC/build/parc_referee/install.log'
+[2.395s] Invoked command in '/home/jachin/FINAL-ARCX6-PARC/parc_ws/src/parc_referee' returned '0': AMENT_PREFIX_PATH=/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/jachin/FINAL-ARCX6-PARC/build/parc_referee/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jachin/FINAL-ARCX6-PARC/install/parc_referee/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../../build/parc_referee build --build-base /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/build install --record /home/jachin/FINAL-ARCX6-PARC/build/parc_referee/install.log --single-version-externally-managed install_data

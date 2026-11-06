@@ -1,0 +1,15 @@
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/ament_index/resource_index/package_run_dependencies/parc_robot
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/ament_index/resource_index/parent_prefix_path/parc_robot
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/environment/ament_prefix_path.sh
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/environment/ament_prefix_path.dsv
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/environment/path.sh
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/environment/path.dsv
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/local_setup.bash
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/local_setup.sh
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/local_setup.zsh
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/local_setup.dsv
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/package.dsv
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/ament_index/resource_index/packages/parc_robot
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/cmake/parc_robotConfig.cmake
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/cmake/parc_robotConfig-version.cmake
+/home/jachin/FINAL-ARCX6-PARC/install/parc_robot/share/parc_robot/package.xml

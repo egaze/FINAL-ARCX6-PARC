@@ -1,0 +1,64 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from parc_msgs/msg/RunStatus.msg
+// generated code does not contain a copyright notice
+
+#include "builtin_interfaces/msg/Time.idl"
+
+module parc_msgs {
+  module msg {
+    module RunStatus_Constants {
+      @verbatim (language="comment", text=
+        "no run in progress")
+      const uint8 IDLE = 0;
+      @verbatim (language="comment", text=
+        "order published, waiting for /parc/start")
+      const uint8 ARMED = 1;
+      @verbatim (language="comment", text=
+        "clock running")
+      const uint8 RUNNING = 2;
+      @verbatim (language="comment", text=
+        "fourth tag reported or /parc/finish received")
+      const uint8 FINISHED = 3;
+      @verbatim (language="comment", text=
+        "time limit reached")
+      const uint8 TIMED_OUT = 4;
+      @verbatim (language="comment", text=
+        "ended by a judge (safety stop, contact with a person, loss of control)")
+      const uint8 TERMINATED = 5;
+    };
+    @verbatim (language="comment", text=
+      "Published by the referee on /parc/run_status at 2 Hz and on every change." "\n"
+      "QoS: reliable, transient local, depth 1." "\n"
+      "Teams can use it to confirm their start and visits were received, and should" "\n"
+      "stop the robot when the state is FINISHED, TIMED_OUT or TERMINATED.")
+    struct RunStatus {
+      builtin_interfaces::msg::Time stamp;
+
+      uint8 state;
+
+      @verbatim (language="comment", text=
+        "seconds since the start signal")
+      float elapsed_s;
+
+      @verbatim (language="comment", text=
+        "600")
+      float time_limit_s;
+
+      @verbatim (language="comment", text=
+        "same as /parc/tag_order")
+      sequence<uint8> tag_order;
+
+      @verbatim (language="comment", text=
+        "tag IDs reported, in the order received (the judges' verdict is separate)")
+      sequence<uint8> tags_reported;
+
+      @verbatim (language="comment", text=
+        "StartSignal.METHOD_*, valid once RUNNING")
+      uint8 start_method;
+
+      @verbatim (language="comment", text=
+        "robot moved before the start signal")
+      boolean false_start;
+    };
+  };
+};

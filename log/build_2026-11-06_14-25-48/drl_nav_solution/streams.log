@@ -1,0 +1,29 @@
+[2.751s] Invoking command in '/home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution': AMENT_PREFIX_PATH=/home/jachin/FINAL-ARCX6-PARC/install/task_solution:/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/build --no-deps symlink_data
+[3.729s] running develop
+[4.373s] running egg_info
+[4.373s] creating drl_nav_solution.egg-info
+[4.426s] writing drl_nav_solution.egg-info/PKG-INFO
+[4.427s] writing dependency_links to drl_nav_solution.egg-info/dependency_links.txt
+[4.428s] writing entry points to drl_nav_solution.egg-info/entry_points.txt
+[4.428s] writing requirements to drl_nav_solution.egg-info/requires.txt
+[4.429s] writing top-level names to drl_nav_solution.egg-info/top_level.txt
+[4.429s] writing manifest file 'drl_nav_solution.egg-info/SOURCES.txt'
+[4.564s] reading manifest file 'drl_nav_solution.egg-info/SOURCES.txt'
+[4.567s] writing manifest file 'drl_nav_solution.egg-info/SOURCES.txt'
+[4.638s] running build_ext
+[4.639s] Creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/lib/python3.12/site-packages/drl-nav-solution.egg-link (link to .)
+[4.640s] Installing drl_visitor script to /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/lib/drl_nav_solution
+[4.640s] 
+[4.640s] Installed /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution
+[4.642s] running symlink_data
+[4.642s] creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/ament_index
+[4.642s] creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/ament_index/resource_index
+[4.642s] creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/ament_index/resource_index/packages
+[4.642s] symbolically linking /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/resource/drl_nav_solution -> /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/ament_index/resource_index/packages
+[4.642s] symbolically linking /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/package.xml -> /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution
+[4.643s] symbolically linking /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/README.md -> /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution
+[4.643s] creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution/launch
+[4.643s] symbolically linking /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/launch/drl_solution.launch.py -> /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution/launch
+[4.643s] creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution/weights
+[4.643s] symbolically linking /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/weights/darc_policy.npz -> /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution/weights
+[4.800s] Invoked command in '/home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution' returned '0': AMENT_PREFIX_PATH=/home/jachin/FINAL-ARCX6-PARC/install/task_solution:/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/build --no-deps symlink_data

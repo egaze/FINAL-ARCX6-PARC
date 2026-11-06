@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "parc_msgs__rs",
+		"source" : "/home/jachin/FINAL-ARCX6-PARC/build/parc_msgs/parc_msgs__rs"
+	}
+}

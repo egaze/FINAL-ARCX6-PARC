@@ -1,0 +1,1 @@
+controller_manager;rclpy;pluginlib;ros2_control;robot_localization;ros2_controllers;gz_ros2_control;ros_gz_bridge;ros_gz_image;ros_gz_sim;image_transport_plugins;topic_tools;depthimage_to_laserscan;audio_common_msgs;tf2_ros_py;sensor_msgs;geometry_msgs;nav_msgs;std_msgs;rviz2;python3-numpy;python3-yaml;parc_robot_description;ament_lint_auto;ament_lint_common

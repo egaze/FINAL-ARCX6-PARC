@@ -1,0 +1,4 @@
+source;share/parcbot_docking/local_setup.bash
+source;share/parcbot_docking/local_setup.dsv
+source;share/parcbot_docking/local_setup.sh
+source;share/parcbot_docking/local_setup.zsh

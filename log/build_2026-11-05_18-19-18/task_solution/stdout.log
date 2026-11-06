@@ -1,0 +1,27 @@
+running egg_info
+writing ../../../build/task_solution/task_solution.egg-info/PKG-INFO
+writing dependency_links to ../../../build/task_solution/task_solution.egg-info/dependency_links.txt
+writing entry points to ../../../build/task_solution/task_solution.egg-info/entry_points.txt
+writing requirements to ../../../build/task_solution/task_solution.egg-info/requires.txt
+writing top-level names to ../../../build/task_solution/task_solution.egg-info/top_level.txt
+reading manifest file '../../../build/task_solution/task_solution.egg-info/SOURCES.txt'
+writing manifest file '../../../build/task_solution/task_solution.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+running install_data
+running install_egg_info
+removing '/home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/python3.12/site-packages/task_solution-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../../../build/task_solution/task_solution.egg-info to /home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/python3.12/site-packages/task_solution-0.0.0-py3.12.egg-info
+running install_scripts
+Installing depth_obstacles script to /home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/task_solution
+Installing green_detector script to /home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/task_solution
+Installing green_nav script to /home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/task_solution
+Installing green_nav2 script to /home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/task_solution
+Installing mock_referee script to /home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/task_solution
+Installing start_run script to /home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/task_solution
+Installing tag_mapper script to /home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/task_solution
+Installing tag_visitor script to /home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/task_solution
+Installing voice_start script to /home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/task_solution
+writing list of installed files to '/home/jachin/FINAL-ARCX6-PARC/build/task_solution/install.log'

@@ -1,0 +1,28 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from parc_msgs/msg/Finish.msg
+// generated code does not contain a copyright notice
+
+#include "builtin_interfaces/msg/Time.idl"
+
+module parc_msgs {
+  module msg {
+    module Finish_Constants {
+      @verbatim (language="comment", text=
+        "the robot has done everything it is going to do")
+      const uint8 REASON_COMPLETED = 0;
+      @verbatim (language="comment", text=
+        "the robot cannot continue")
+      const uint8 REASON_GAVE_UP = 1;
+    };
+    @verbatim (language="comment", text=
+      "Published by the team on /parc/finish to end the run early, e.g. after" "\n"
+      "skipping a tag. Not needed if all four tags are reported: the referee ends" "\n"
+      "the run automatically after the fourth report." "\n"
+      "QoS: reliable, depth 10.")
+    struct Finish {
+      builtin_interfaces::msg::Time stamp;
+
+      uint8 reason;
+    };
+  };
+};

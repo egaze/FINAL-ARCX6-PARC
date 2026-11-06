@@ -1,0 +1,371 @@
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+-- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rosidl_adapter: 4.6.7 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+-- Found builtin_interfaces: 2.0.3 (/opt/ros/jazzy/share/builtin_interfaces/cmake)
+-- Found std_msgs: 5.3.7 (/opt/ros/jazzy/share/std_msgs/cmake)
+-- Found sensor_msgs: 5.3.7 (/opt/ros/jazzy/share/sensor_msgs/cmake)
+-- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)
+-- Found PythonExtra: /usr/bin/python3  
+-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed 
+-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+-- Configuring done (9.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/jachin/FINAL-ARCX6-PARC/build/parc_msgs
+[  2%] [34m[1mGenerating type hashes for ROS interfaces[0m
+[  2%] [34m[1mGenerating Rust code for ROS interfaces[0m
+[  2%] Built target ament_cmake_python_copy_parc_msgs
+running egg_info
+creating parc_msgs.egg-info
+writing parc_msgs.egg-info/PKG-INFO
+writing dependency_links to parc_msgs.egg-info/dependency_links.txt
+writing top-level names to parc_msgs.egg-info/top_level.txt
+writing manifest file 'parc_msgs.egg-info/SOURCES.txt'
+reading manifest file 'parc_msgs.egg-info/SOURCES.txt'
+writing manifest file 'parc_msgs.egg-info/SOURCES.txt'
+[  2%] Built target ament_cmake_python_build_parc_msgs_egg
+[  2%] Built target parc_msgs__rosidl_generator_type_description
+[  4%] [34m[1mGenerating C code for ROS interfaces[0m
+[  5%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[  5%] Built target parc_msgs__rs
+[  5%] Built target parc_msgs__cpp
+[ 10%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/tag_order__type_support.c.o[0m
+[ 10%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/tag_order__description.c.o[0m
+[ 10%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/start_signal__functions.c.o[0m
+[ 10%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/start_signal__type_support.c.o[0m
+[ 13%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/tag_visit__description.c.o[0m
+[ 13%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/tag_visit__type_support.c.o[0m
+[ 14%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/tag_visit__functions.c.o[0m
+[ 16%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/finish__functions.c.o[0m
+[ 17%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/start_signal__description.c.o[0m
+[ 20%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/finish__description.c.o[0m
+[ 20%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/tag_order__functions.c.o[0m
+[ 21%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/finish__type_support.c.o[0m
+[ 22%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/run_status__description.c.o[0m
+[ 25%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/run_status__functions.c.o[0m
+[ 25%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_c.dir/rosidl_generator_c/parc_msgs/msg/detail/run_status__type_support.c.o[0m
+[ 26%] [32m[1mLinking C shared library libparc_msgs__rosidl_generator_c.so[0m
+[ 26%] Built target parc_msgs__rosidl_generator_c
+[ 33%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[ 33%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[ 33%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[ 33%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[ 34%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[ 34%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[ 40%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/parc_msgs/msg/tag_order__type_support.cpp.o[0m
+[ 40%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/parc_msgs/msg/start_signal__type_support.cpp.o[0m
+[ 40%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/parc_msgs/msg/finish__type_support.cpp.o[0m
+[ 40%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/parc_msgs/msg/tag_visit__type_support.cpp.o[0m
+[ 41%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/parc_msgs/msg/run_status__type_support.cpp.o[0m
+[ 44%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/parc_msgs/msg/tag_visit__type_support.cpp.o[0m
+[ 44%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/parc_msgs/msg/start_signal__type_support.cpp.o[0m
+[ 45%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/parc_msgs/msg/tag_order__type_support.cpp.o[0m
+[ 46%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/parc_msgs/msg/finish__type_support.cpp.o[0m
+[ 48%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/parc_msgs/msg/run_status__type_support.cpp.o[0m
+[ 49%] [32m[1mLinking CXX shared library libparc_msgs__rosidl_typesupport_c.so[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/parc_msgs/msg/detail/start_signal__type_support.cpp.o[0m
+[ 52%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/parc_msgs/msg/detail/tag_order__type_support.cpp.o[0m
+[ 52%] Built target parc_msgs__rosidl_typesupport_c
+[ 53%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/parc_msgs/msg/detail/tag_visit__type_support.cpp.o[0m
+[ 54%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/parc_msgs/msg/detail/dds_fastrtps/tag_order__type_support.cpp.o[0m
+[ 56%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/parc_msgs/msg/detail/tag_order__type_support.c.o[0m
+[ 57%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/parc_msgs/msg/detail/dds_fastrtps/start_signal__type_support.cpp.o[0m
+[ 58%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/parc_msgs/msg/detail/start_signal__type_support.c.o[0m
+[ 60%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/parc_msgs/msg/detail/tag_order__type_support_c.cpp.o[0m
+[ 61%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/parc_msgs/msg/detail/tag_visit__type_support.c.o[0m
+[ 62%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/parc_msgs/msg/detail/finish__type_support.c.o[0m
+[ 64%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/parc_msgs/msg/detail/start_signal__type_support_c.cpp.o[0m
+[ 65%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/parc_msgs/msg/detail/tag_visit__type_support_c.cpp.o[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/parc_msgs/msg/detail/finish__type_support_c.cpp.o[0m
+[ 68%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/parc_msgs/msg/detail/run_status__type_support.c.o[0m
+[ 69%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/parc_msgs/msg/detail/finish__type_support.cpp.o[0m
+[ 70%] [32m[1mLinking CXX shared library libparc_msgs__rosidl_typesupport_cpp.so[0m
+[ 72%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/parc_msgs/msg/detail/run_status__type_support_c.cpp.o[0m
+[ 73%] [32m[1mLinking C shared library libparc_msgs__rosidl_typesupport_introspection_c.so[0m
+[ 73%] Built target parc_msgs__rosidl_typesupport_cpp
+[ 74%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/parc_msgs/msg/detail/dds_fastrtps/tag_visit__type_support.cpp.o[0m
+[ 76%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/parc_msgs/msg/detail/dds_fastrtps/finish__type_support.cpp.o[0m
+[ 76%] Built target parc_msgs__rosidl_typesupport_introspection_c
+[ 77%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/parc_msgs/msg/detail/dds_fastrtps/run_status__type_support.cpp.o[0m
+[ 78%] [32mBuilding CXX object CMakeFiles/parc_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/parc_msgs/msg/detail/run_status__type_support.cpp.o[0m
+[ 80%] [32m[1mLinking CXX shared library libparc_msgs__rosidl_typesupport_introspection_cpp.so[0m
+[ 81%] [32m[1mLinking CXX shared library libparc_msgs__rosidl_typesupport_fastrtps_c.so[0m
+[ 81%] Built target parc_msgs__rosidl_typesupport_introspection_cpp
+[ 81%] Built target parc_msgs__rosidl_typesupport_fastrtps_c
+[ 82%] [32m[1mLinking CXX shared library libparc_msgs__rosidl_typesupport_fastrtps_cpp.so[0m
+[ 82%] Built target parc_msgs__rosidl_typesupport_fastrtps_cpp
+[ 82%] Built target parc_msgs
+[ 84%] [34m[1mGenerating Python code for ROS interfaces[0m
+[ 84%] Built target parc_msgs__py
+[ 88%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_py.dir/rosidl_generator_py/parc_msgs/msg/_tag_order_s.c.o[0m
+[ 88%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_py.dir/rosidl_generator_py/parc_msgs/msg/_finish_s.c.o[0m
+[ 88%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_py.dir/rosidl_generator_py/parc_msgs/msg/_tag_visit_s.c.o[0m
+[ 89%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_py.dir/rosidl_generator_py/parc_msgs/msg/_start_signal_s.c.o[0m
+[ 90%] [32mBuilding C object CMakeFiles/parc_msgs__rosidl_generator_py.dir/rosidl_generator_py/parc_msgs/msg/_run_status_s.c.o[0m
+[ 92%] [32m[1mLinking C shared library libparc_msgs__rosidl_generator_py.so[0m
+[ 92%] Built target parc_msgs__rosidl_generator_py
+[ 94%] [32mBuilding C object CMakeFiles/parc_msgs_s__rosidl_typesupport_introspection_c.dir/rosidl_generator_py/parc_msgs/_parc_msgs_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[ 94%] [32mBuilding C object CMakeFiles/parc_msgs_s__rosidl_typesupport_fastrtps_c.dir/rosidl_generator_py/parc_msgs/_parc_msgs_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[ 96%] [32mBuilding C object CMakeFiles/parc_msgs_s__rosidl_typesupport_c.dir/rosidl_generator_py/parc_msgs/_parc_msgs_s.ep.rosidl_typesupport_c.c.o[0m
+[ 98%] [32m[1mLinking C shared module rosidl_generator_py/parc_msgs/parc_msgs_s__rosidl_typesupport_fastrtps_c.so[0m
+[ 98%] [32m[1mLinking C shared module rosidl_generator_py/parc_msgs/parc_msgs_s__rosidl_typesupport_introspection_c.so[0m
+[100%] [32m[1mLinking C shared module rosidl_generator_py/parc_msgs/parc_msgs_s__rosidl_typesupport_c.so[0m
+[100%] Built target parc_msgs_s__rosidl_typesupport_introspection_c
+[100%] Built target parc_msgs_s__rosidl_typesupport_c
+[100%] Built target parc_msgs_s__rosidl_typesupport_fastrtps_c
+-- Install configuration: ""
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/ament_index/resource_index/rosidl_interfaces/parc_msgs
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/TagOrder.json
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/StartSignal.json
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/TagVisit.json
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/Finish.json
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/RunStatus.json
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/tag_order.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/rosidl_generator_c__visibility_control.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__struct.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__type_support.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__type_support.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__functions.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__type_support.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__functions.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__description.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__functions.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__type_support.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__type_support.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__struct.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__description.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__type_support.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__functions.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__functions.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__type_support.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__type_support.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__functions.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__type_support.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__functions.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__functions.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__description.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__struct.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__struct.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__struct.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__type_support.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__description.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__functions.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__functions.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__description.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/tag_visit.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/finish.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/start_signal.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/run_status.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/environment/library_path.sh
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/environment/library_path.dsv
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_generator_c.so
+-- Set non-toolchain portion of runtime path of "/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_generator_c.so" to ""
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__rosidl_typesupport_fastrtps_c.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__rosidl_typesupport_fastrtps_c.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__rosidl_typesupport_fastrtps_c.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__rosidl_typesupport_fastrtps_c.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__rosidl_typesupport_fastrtps_c.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_fastrtps_c.so
+-- Set non-toolchain portion of runtime path of "/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_fastrtps_c.so" to ""
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__rosidl_typesupport_introspection_c.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__type_support.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__type_support.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__rosidl_typesupport_introspection_c.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__type_support.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__type_support.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__type_support.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__rosidl_typesupport_introspection_c.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__rosidl_typesupport_introspection_c.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__rosidl_typesupport_introspection_c.h
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_introspection_c.so
+-- Set non-toolchain portion of runtime path of "/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_introspection_c.so" to ""
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_c.so
+-- Set non-toolchain portion of runtime path of "/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_c.so" to ""
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/finish.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/tag_visit.hpp
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__builder.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__builder.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__builder.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__builder.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__traits.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__struct.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__struct.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__traits.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__type_support.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__struct.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__type_support.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__type_support.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__traits.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__traits.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__builder.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__type_support.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__struct.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__traits.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__type_support.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__struct.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/rosidl_generator_cpp__visibility_control.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/start_signal.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/run_status.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/tag_order.hpp
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__rosidl_typesupport_fastrtps_cpp.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/dds_fastrtps
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__rosidl_typesupport_fastrtps_cpp.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__rosidl_typesupport_fastrtps_cpp.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__rosidl_typesupport_fastrtps_cpp.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__rosidl_typesupport_fastrtps_cpp.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_fastrtps_cpp.so
+-- Set non-toolchain portion of runtime path of "/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_fastrtps_cpp.so" to ""
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg
+-- Up-to-date: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__rosidl_typesupport_introspection_cpp.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/run_status__type_support.cpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__rosidl_typesupport_introspection_cpp.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__type_support.cpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__rosidl_typesupport_introspection_cpp.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_visit__type_support.cpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__rosidl_typesupport_introspection_cpp.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/finish__type_support.cpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/tag_order__type_support.cpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/include/parc_msgs/parc_msgs/msg/detail/start_signal__rosidl_typesupport_introspection_cpp.hpp
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_introspection_cpp.so
+-- Set non-toolchain portion of runtime path of "/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_introspection_cpp.so" to ""
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_cpp.so
+-- Set non-toolchain portion of runtime path of "/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_typesupport_cpp.so" to ""
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/environment/pythonpath.sh
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/environment/pythonpath.dsv
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs-1.0.0-py3.12.egg-info
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs-1.0.0-py3.12.egg-info/SOURCES.txt
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs-1.0.0-py3.12.egg-info/dependency_links.txt
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs-1.0.0-py3.12.egg-info/top_level.txt
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs-1.0.0-py3.12.egg-info/PKG-INFO
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/_parc_msgs_s.ep.rosidl_typesupport_introspection_c.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/parc_msgs_s__rosidl_typesupport_introspection_c.so
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/__init__.py
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/parc_msgs_s__rosidl_typesupport_fastrtps_c.so
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_run_status_s.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_tag_visit.py
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_run_status.py
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/__init__.py
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_tag_order.py
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_start_signal_s.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_tag_order_s.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_finish_s.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_tag_visit_s.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_start_signal.py
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_finish.py
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/_parc_msgs_s.ep.rosidl_typesupport_c.c
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/parc_msgs_s__rosidl_typesupport_c.so
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/_parc_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+Listing '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs'...
+Compiling '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/__init__.py'...
+Listing '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg'...
+Compiling '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/__init__.py'...
+Compiling '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_finish.py'...
+Compiling '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_run_status.py'...
+Compiling '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_start_signal.py'...
+Compiling '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_tag_order.py'...
+Compiling '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/msg/_tag_visit.py'...
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/parc_msgs_s__rosidl_typesupport_fastrtps_c.so
+-- Set non-toolchain portion of runtime path of "/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/parc_msgs_s__rosidl_typesupport_fastrtps_c.so" to ""
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/parc_msgs_s__rosidl_typesupport_introspection_c.so
+-- Set non-toolchain portion of runtime path of "/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/parc_msgs_s__rosidl_typesupport_introspection_c.so" to ""
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/parc_msgs_s__rosidl_typesupport_c.so
+-- Set non-toolchain portion of runtime path of "/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages/parc_msgs/parc_msgs_s__rosidl_typesupport_c.so" to ""
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_generator_py.so
+-- Set non-toolchain portion of runtime path of "/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/libparc_msgs__rosidl_generator_py.so" to ""
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/ament_index/resource_index/rust_packages/parc_msgs
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/rust
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/rust/build.rs
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/rust/src
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/rust/src/msg
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/rust/src/msg/rmw.rs
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/rust/src/lib.rs
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/rust/src/msg.rs
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/rust/Cargo.toml
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/TagOrder.idl
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/StartSignal.idl
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/TagVisit.idl
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/Finish.idl
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/RunStatus.idl
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/TagOrder.msg
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/StartSignal.msg
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/TagVisit.msg
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/Finish.msg
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/msg/RunStatus.msg
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/ament_index/resource_index/package_run_dependencies/parc_msgs
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/ament_index/resource_index/parent_prefix_path/parc_msgs
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/environment/ament_prefix_path.sh
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/environment/ament_prefix_path.dsv
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/environment/path.sh
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/environment/path.dsv
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/local_setup.bash
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/local_setup.sh
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/local_setup.zsh
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/local_setup.dsv
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/package.dsv
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/ament_index/resource_index/packages/parc_msgs
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/export_parc_msgs__rosidl_generator_cExport.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/export_parc_msgs__rosidl_generator_cExport-noconfig.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/export_parc_msgs__rosidl_typesupport_fastrtps_cExport.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/export_parc_msgs__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/parc_msgs__rosidl_typesupport_introspection_cExport.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/parc_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/parc_msgs__rosidl_typesupport_cExport.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/parc_msgs__rosidl_typesupport_cExport-noconfig.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/export_parc_msgs__rosidl_generator_cppExport.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/export_parc_msgs__rosidl_typesupport_fastrtps_cppExport.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/export_parc_msgs__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/parc_msgs__rosidl_typesupport_introspection_cppExport.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/parc_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/parc_msgs__rosidl_typesupport_cppExport.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/parc_msgs__rosidl_typesupport_cppExport-noconfig.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/export_parc_msgs__rosidl_generator_pyExport.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/export_parc_msgs__rosidl_generator_pyExport-noconfig.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/rosidl_cmake-extras.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/ament_cmake_export_targets-extras.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/parc_msgsConfig.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/cmake/parc_msgsConfig-version.cmake
+-- Installing: /home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/share/parc_msgs/package.xml

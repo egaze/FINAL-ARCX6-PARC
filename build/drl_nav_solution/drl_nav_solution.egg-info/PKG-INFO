@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: drl-nav-solution
+Version: 0.1.0
+Summary: Map-free PARC 2026 solution navigated by a PEEMEF-DARC reinforcement-learning policy
+Maintainer: ARCX6
+Maintainer-email: eyiramgaze@gmail.com
+License: MIT

@@ -1,0 +1,89 @@
+[0.000000] (-) TimerEvent: {}
+[0.001855] (-) JobUnselected: {'identifier': 'parc_msgs'}
+[0.002472] (-) JobUnselected: {'identifier': 'parc_referee'}
+[0.003335] (-) JobUnselected: {'identifier': 'parc_robot'}
+[0.003495] (-) JobUnselected: {'identifier': 'parc_robot_bringup'}
+[0.003554] (-) JobUnselected: {'identifier': 'parc_robot_description'}
+[0.003599] (-) JobUnselected: {'identifier': 'parcbot_docking'}
+[0.003645] (-) JobUnselected: {'identifier': 'task_solution'}
+[0.003693] (drl_nav_solution) JobQueued: {'identifier': 'drl_nav_solution', 'dependencies': OrderedDict({'parc_msgs': '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs', 'task_solution': '/home/jachin/FINAL-ARCX6-PARC/install/task_solution'})}
+[0.003776] (drl_nav_solution) JobStarted: {'identifier': 'drl_nav_solution'}
+[0.099770] (-) TimerEvent: {}
+[0.200435] (-) TimerEvent: {}
+[0.301300] (-) TimerEvent: {}
+[0.401823] (-) TimerEvent: {}
+[0.502384] (-) TimerEvent: {}
+[0.602951] (-) TimerEvent: {}
+[0.703541] (-) TimerEvent: {}
+[0.804220] (-) TimerEvent: {}
+[0.904808] (-) TimerEvent: {}
+[1.005397] (-) TimerEvent: {}
+[1.105805] (-) TimerEvent: {}
+[1.207000] (-) TimerEvent: {}
+[1.307443] (-) TimerEvent: {}
+[1.407785] (-) TimerEvent: {}
+[1.508174] (-) TimerEvent: {}
+[1.608656] (-) TimerEvent: {}
+[1.709136] (-) TimerEvent: {}
+[1.809570] (-) TimerEvent: {}
+[1.910022] (-) TimerEvent: {}
+[2.010563] (-) TimerEvent: {}
+[2.111154] (-) TimerEvent: {}
+[2.211699] (-) TimerEvent: {}
+[2.312329] (-) TimerEvent: {}
+[2.412999] (-) TimerEvent: {}
+[2.513646] (-) TimerEvent: {}
+[2.614137] (-) TimerEvent: {}
+[2.714589] (-) TimerEvent: {}
+[2.751920] (drl_nav_solution) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/build', '--no-deps', 'symlink_data'], 'cwd': '/home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution', 'env': {'GJS_DEBUG_TOPICS': 'JS ERROR;JS LOG', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'GZ_SIM_RESOURCE_PATH': '/opt/ros/jazzy/share', 'LANGUAGE': 'en_US', 'USER': 'jachin', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SEAT': 'seat0', 'XDG_SESSION_TYPE': 'x11', 'GIT_ASKPASS': '/usr/share/code/resources/app/extensions/git/dist/askpass.sh', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_msgs/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/jachin', 'CHROME_DESKTOP': 'code.desktop', 'OLDPWD': '/home/jachin/parc_ws', 'TERM_PROGRAM_VERSION': '1.124.2', 'DESKTOP_SESSION': 'cinnamon', 'NVM_BIN': '/home/jachin/.nvm/versions/node/v24.12.0/bin', 'NVM_INC': '/home/jachin/.nvm/versions/node/v24.12.0/include/node', 'GIO_LAUNCHED_DESKTOP_FILE': '/usr/share/applications/code.desktop', 'ROS_PYTHON_VERSION': '3', 'GTK_MODULES': 'gail:atk-bridge', 'XDG_SEAT_PATH': '/org/freedesktop/DisplayManager/Seat0', 'VSCODE_GIT_ASKPASS_MAIN': '/usr/share/code/resources/app/extensions/git/dist/askpass-main.js', 'LC_MONETARY': 'ak_GH', 'VSCODE_GIT_ASKPASS_NODE': '/usr/share/code/code', 'CINNAMON_VERSION': '6.4.8', 'PYDEVD_DISABLE_FILE_VALIDATION': '1', 'BUNDLED_DEBUGPY_PATH': '/home/jachin/.vscode/extensions/ms-python.debugpy-2026.6.0-linux-x64/bundled/libs/debugpy', 'VSCODE_PYTHON_AUTOACTIVATE_GUARD': '1', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '3828', 'NVM_DIR': '/home/jachin/.nvm', 'COLCON_PREFIX_PATH': '/home/jachin/FINAL-ARCX6-PARC/parc_ws/install:/home/jachin/parc_main/PARC2026-ENG-ARCX6/ros2_ws/install', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'jachin', 'DATA_CLOUD_CURR_IDE_NAME': 'visualstudiocode', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': 'c2', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'FC_FONTATIONS': '1', 'ROS_OS_OVERRIDE': 'ubuntu:noble', 'PATH': '/home/jachin/.opencode/bin:/home/jachin/.config/Code/User/globalStorage/github.copilot-chat/debugCommand:/home/jachin/.config/Code/User/globalStorage/github.copilot-chat/copilotCli:/home/jachin/.cache/cloud-code/m2c/bin:/home/jachin/.opencode/bin:/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/home/jachin/.nvm/versions/node/v24.12.0/bin:/home/jachin/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/jachin/.local/share/JetBrains/Toolbox/scripts:/home/jachin/.vscode/extensions/ms-python.debugpy-2026.6.0-linux-x64/bundled/scripts/noConfigScripts', 'SESSION_MANAGER': 'local/jachin-HP-Laptop-17-cp3xxx:@/tmp/.ICE-unix/1516,unix/jachin-HP-Laptop-17-cp3xxx:/tmp/.ICE-unix/1516', 'GDM_LANG': 'en_US', 'GTK3_MODULES': 'xapp-gtk3-module', 'XDG_SESSION_PATH': '/org/freedesktop/DisplayManager/Session0', 'LC_ADDRESS': 'ak_GH', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/8310b615_ffda_440e_86e0_2bf5d413f410', 'XDG_RUNTIME_DIR': '/run/user/1000', 'GDK_BACKEND': 'x11', 'DISPLAY': ':0', 'VSCODE_DEBUGPY_ADAPTER_ENDPOINTS': '/home/jachin/.vscode/extensions/ms-python.debugpy-2026.6.0-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-35058dde5f19589f.txt', 'LANG': 'en_US.UTF-8', 'XDG_CURRENT_DESKTOP': 'X-Cinnamon', 'PYTHONSTARTUP': '/home/jachin/.config/Code/User/workspaceStorage/45466e3ae90d8990b44a65d6521edfd5/ms-python.python/pythonrc.py', 'LC_TELEPHONE': 'ak_GH', 'XDG_SESSION_DESKTOP': 'cinnamon', 'XAUTHORITY': '/home/jachin/.Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'VSCODE_GIT_IPC_HANDLE': '/run/user/1000/vscode-git-1dde4ddee7.sock', 'GNOME_TERMINAL_SERVICE': ':1.253', 'TERM_PROGRAM': 'vscode', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '42', 'XDG_GREETER_DATA_DIR': '/var/lib/lightdm-data/jachin', 'AMENT_PREFIX_PATH': '/home/jachin/FINAL-ARCX6-PARC/install/task_solution:/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/task_solution:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parcbot_docking:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_robot_bringup:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_robot_description:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_robot:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_referee:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_msgs:/home/jachin/parc_main/PARC2026-ENG-ARCX6/ros2_ws/install/parc_robot_bringup:/home/jachin/parc_main/PARC2026-ENG-ARCX6/ros2_ws/install/parc_robot_description:/home/jachin/parc_main/PARC2026-ENG-ARCX6/ros2_ws/install/parc_robot:/home/jachin/parc_main/PARC2026-ENG-ARCX6/ros2_ws/install/arcx6_solution:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LC_NAME': 'ak_GH', 'QT_ACCESSIBILITY': '1', 'NO_AT_BRIDGE': '1', 'GDMSESSION': 'cinnamon', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'ak_GH', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GJS_DEBUG_OUTPUT': 'stderr', 'LC_IDENTIFICATION': 'ak_GH', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'XDG_VTNR': '7', 'PWD': '/home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-cinnamon:/etc/xdg', 'COPILOT_DEBUG_NONCE': '28457bd2ea49ce47cb6e1289c5e4a162', 'NVM_CD_FLAGS': '', 'XDG_DATA_DIRS': '/usr/share/cinnamon:/usr/share/gnome:/home/jachin/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share', 'PYTHONPATH': '/home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/install/task_solution/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/parc_ws/build/task_solution:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/task_solution/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_robot_bringup/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/parc_ws/build/parc_referee:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_referee/lib/python3.12/site-packages:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_msgs/lib/python3.12/site-packages:/home/jachin/parc_main/PARC2026-ENG-ARCX6/ros2_ws/install/parc_robot_bringup/lib/python3.12/site-packages:/home/jachin/parc_main/PARC2026-ENG-ARCX6/ros2_ws/build/arcx6_solution:/home/jachin/parc_main/PARC2026-ENG-ARCX6/ros2_ws/install/arcx6_solution/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'LC_NUMERIC': 'ak_GH', 'LC_PAPER': 'ak_GH', 'COLCON': '1', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/home/jachin/FINAL-ARCX6-PARC/install/parc_msgs:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parcbot_docking:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_robot_bringup:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_robot_description:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_robot:/home/jachin/FINAL-ARCX6-PARC/parc_ws/install/parc_msgs:/home/jachin/parc_main/PARC2026-ENG-ARCX6/ros2_ws/install/parc_robot_bringup:/home/jachin/parc_main/PARC2026-ENG-ARCX6/ros2_ws/install/parc_robot_description:/home/jachin/parc_main/PARC2026-ENG-ARCX6/ros2_ws/install/parc_robot:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor'}, 'shell': False}
+[2.814722] (-) TimerEvent: {}
+[2.915296] (-) TimerEvent: {}
+[3.016102] (-) TimerEvent: {}
+[3.116625] (-) TimerEvent: {}
+[3.217108] (-) TimerEvent: {}
+[3.317519] (-) TimerEvent: {}
+[3.417916] (-) TimerEvent: {}
+[3.518362] (-) TimerEvent: {}
+[3.618938] (-) TimerEvent: {}
+[3.719563] (-) TimerEvent: {}
+[3.732573] (drl_nav_solution) StdoutLine: {'line': b'running develop\n'}
+[3.819714] (-) TimerEvent: {}
+[3.920236] (-) TimerEvent: {}
+[4.020694] (-) TimerEvent: {}
+[4.121215] (-) TimerEvent: {}
+[4.221661] (-) TimerEvent: {}
+[4.322042] (-) TimerEvent: {}
+[4.376213] (drl_nav_solution) StdoutLine: {'line': b'running egg_info\n'}
+[4.376552] (drl_nav_solution) StdoutLine: {'line': b'creating drl_nav_solution.egg-info\n'}
+[4.422157] (-) TimerEvent: {}
+[4.429983] (drl_nav_solution) StdoutLine: {'line': b'writing drl_nav_solution.egg-info/PKG-INFO\n'}
+[4.430598] (drl_nav_solution) StdoutLine: {'line': b'writing dependency_links to drl_nav_solution.egg-info/dependency_links.txt\n'}
+[4.431304] (drl_nav_solution) StdoutLine: {'line': b'writing entry points to drl_nav_solution.egg-info/entry_points.txt\n'}
+[4.431741] (drl_nav_solution) StdoutLine: {'line': b'writing requirements to drl_nav_solution.egg-info/requires.txt\n'}
+[4.432243] (drl_nav_solution) StdoutLine: {'line': b'writing top-level names to drl_nav_solution.egg-info/top_level.txt\n'}
+[4.432606] (drl_nav_solution) StdoutLine: {'line': b"writing manifest file 'drl_nav_solution.egg-info/SOURCES.txt'\n"}
+[4.522309] (-) TimerEvent: {}
+[4.567847] (drl_nav_solution) StdoutLine: {'line': b"reading manifest file 'drl_nav_solution.egg-info/SOURCES.txt'\n"}
+[4.570324] (drl_nav_solution) StdoutLine: {'line': b"writing manifest file 'drl_nav_solution.egg-info/SOURCES.txt'\n"}
+[4.622461] (-) TimerEvent: {}
+[4.641320] (drl_nav_solution) StdoutLine: {'line': b'running build_ext\n'}
+[4.642193] (drl_nav_solution) StdoutLine: {'line': b'Creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/lib/python3.12/site-packages/drl-nav-solution.egg-link (link to .)\n'}
+[4.643173] (drl_nav_solution) StdoutLine: {'line': b'Installing drl_visitor script to /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/lib/drl_nav_solution\n'}
+[4.643706] (drl_nav_solution) StdoutLine: {'line': b'\n'}
+[4.643872] (drl_nav_solution) StdoutLine: {'line': b'Installed /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution\n'}
+[4.645055] (drl_nav_solution) StdoutLine: {'line': b'running symlink_data\n'}
+[4.645379] (drl_nav_solution) StdoutLine: {'line': b'creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/ament_index\n'}
+[4.645603] (drl_nav_solution) StdoutLine: {'line': b'creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/ament_index/resource_index\n'}
+[4.645776] (drl_nav_solution) StdoutLine: {'line': b'creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/ament_index/resource_index/packages\n'}
+[4.645916] (drl_nav_solution) StdoutLine: {'line': b'symbolically linking /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/resource/drl_nav_solution -> /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/ament_index/resource_index/packages\n'}
+[4.646066] (drl_nav_solution) StdoutLine: {'line': b'symbolically linking /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/package.xml -> /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution\n'}
+[4.646192] (drl_nav_solution) StdoutLine: {'line': b'symbolically linking /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/README.md -> /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution\n'}
+[4.646330] (drl_nav_solution) StdoutLine: {'line': b'creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution/launch\n'}
+[4.646450] (drl_nav_solution) StdoutLine: {'line': b'symbolically linking /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/launch/drl_solution.launch.py -> /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution/launch\n'}
+[4.646573] (drl_nav_solution) StdoutLine: {'line': b'creating /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution/weights\n'}
+[4.646697] (drl_nav_solution) StdoutLine: {'line': b'symbolically linking /home/jachin/FINAL-ARCX6-PARC/build/drl_nav_solution/weights/darc_policy.npz -> /home/jachin/FINAL-ARCX6-PARC/install/drl_nav_solution/share/drl_nav_solution/weights\n'}
+[4.722687] (-) TimerEvent: {}
+[4.803243] (drl_nav_solution) CommandEnded: {'returncode': 0}
+[4.822797] (-) TimerEvent: {}
+[4.834344] (drl_nav_solution) JobEnded: {'identifier': 'drl_nav_solution', 'rc': 0}
+[4.836140] (-) EventReactorShutdown: {}

@@ -1,26 +1,26 @@
 frame: map
 tags:
   1:
-    x: 3.611
-    y: 3.514
-    z: 1.031
-    facing_yaw: -1.5758
-    samples: 23
+    x: 5.048
+    y: 0.252
+    z: 1.067
+    facing_yaw: -3.115
+    samples: 66
   4:
-    x: 4.941
-    y: 0.597
-    z: 1.032
-    facing_yaw: -2.9754
-    samples: 278
+    x: 3.608
+    y: 3.491
+    z: 1.07
+    facing_yaw: -1.3357
+    samples: 58
   7:
-    x: 2.313
-    y: 1.923
-    z: 1.097
-    facing_yaw: -2.8077
-    samples: 124
+    x: 1.551
+    y: -0.253
+    z: 1.025
+    facing_yaw: -0.2414
+    samples: 190
   9:
-    x: 0.205
-    y: -3.418
-    z: 1.049
-    facing_yaw: 1.5795
-    samples: 117
+    x: 0.258
+    y: -3.676
+    z: 1.08
+    facing_yaw: 1.8159
+    samples: 11
