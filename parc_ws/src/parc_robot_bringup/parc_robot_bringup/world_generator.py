@@ -21,7 +21,7 @@ from dataclasses import dataclass, field
 import numpy as np
 
 XMIN, XMAX, YMIN, YMAX = -3.5, 3.5, -8.0, -2.0
-START = (0.0, -7.0, math.pi / 2)
+START = (2.6595, -7.6636, math.pi / 2)
 TAG_IDS = (1, 4, 7, 9)
 TAG_HEIGHT = 1.0
 TAG_SIZE = 0.15

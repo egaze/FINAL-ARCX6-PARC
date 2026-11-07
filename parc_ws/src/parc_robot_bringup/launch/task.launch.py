@@ -31,7 +31,7 @@ def generate_launch_description():
 
     rviz_config_file = os.path.join(pkg_path, "rviz/task.rviz")
     goal_location_sdf = os.path.join(pkg_path, "models/goal_location/model.sdf")
-    world_file = os.path.join(pkg_path, "worlds/task_world.sdf")
+    world_file = os.path.join(pkg_path, "worlds/real_sim.sdf")
     set_env_vars_resources = AppendEnvironmentVariable(
         "GZ_SIM_RESOURCE_PATH", os.path.join(pkg_path, "models")
     )

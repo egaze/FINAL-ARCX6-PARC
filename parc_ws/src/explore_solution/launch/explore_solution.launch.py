@@ -156,6 +156,8 @@ def launch_setup(context):
     opening = lc('opening').strip()
     if opening == 'auto':                     # robot: out of the start corner first
         opening = ROBOT_OPENING if robot else ''
+    elif opening == 'robot':                  # the robot's opening, also in the sim
+        opening = ROBOT_OPENING
     elif opening == 'none':
         opening = ''
     params_file, params_src = explore_nav2_params(robot, max_speed, live_map=(mode == 'slam'),
@@ -254,7 +256,8 @@ def generate_launch_description():
         DeclareLaunchArgument('opening', default_value='auto',
                               description='moves at the start of the run before the search, e.g. '
                                           '"forward 1.3, left 90, forward 1.0" (m, deg; also back, '
-                                          f'right). auto: robot "{ROBOT_OPENING}", sim none; none: off'),
+                                          f'right). auto: robot "{ROBOT_OPENING}", sim none; robot: "{ROBOT_OPENING}" '
+                                          'in the sim too; none: off'),
         DeclareLaunchArgument('cmd_vel_topic', default_value='/cmd_vel',
                               description="simulation only: the collision monitor's output topic "
                                           '(where the simulated wheels listen, Twist)'),
