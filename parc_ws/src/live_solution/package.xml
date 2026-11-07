@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>live_solution</name>
+  <version>0.0.1</version>
+  <description>ARCX6 PARC 2026: no prior map. Wheel odometry + live SLAM, camera-coverage exploration, visits the AprilTags in the referee's order.</description>
+  <maintainer email="eyiramgaze@gmail.com">ARCX6</maintainer>
+  <license>MIT</license>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>task_solution</exec_depend>
+  <exec_depend>explore_solution</exec_depend>
+  <exec_depend>slam_toolbox</exec_depend>
+  <exec_depend>nav_msgs</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>

@@ -9,6 +9,8 @@
 
   <exec_depend>rclpy</exec_depend>
   <exec_depend>task_solution</exec_depend>
+  <exec_depend>parcbot_docking</exec_depend>
+  <exec_depend>apriltag_msgs</exec_depend>
   <exec_depend>tf2_ros</exec_depend>
   <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>nav2_msgs</exec_depend>
