@@ -39,7 +39,7 @@ from rclpy.duration import Duration
 from rclpy.executors import ExternalShutdownException, MultiThreadedExecutor
 from rclpy.qos import qos_profile_sensor_data
 from rclpy.time import Time
-from sensor_msgs.msg import Image, LaserScan
+from sensor_msgs.msg import Image, LaserScan, PointCloud2
 import tf2_ros
 
 import cv2
@@ -186,6 +186,28 @@ class ExploreVisitor(TagVisitor):
         # corner): "forward 1.3, left 90, forward 1.0" (m / deg; also back, right). Empty = off.
         # Driven through the collision monitor; a blocked move ends the opening early.
         self.declare_parameter('opening', '')
+        self.declare_parameter('visit_attempts', 2)      # tries per tag before moving on
+        # Reversing (after a photo, a failed line-up, when stuck, before a scan spin): slow,
+        # ramped, and limited by the free space behind (lidar) minus a margin for tabletops
+        self.declare_parameter('back_out_speed', 0.12)       # m/s (task_solution used 0.3)
+        self.declare_parameter('back_out_margin', 0.25)      # m kept free behind the robot
+        self.declare_parameter('rear_edge', 0.30)            # m, base centre to back edge
+        self.declare_parameter('half_width', 0.23)           # m
+        # Reverse ONLY when the depth cameras see something (e.g. a tabletop) too close in
+        # front: while Nav2 drives, an obstacle within front_close of the front edge for
+        # front_close_s cancels the goal and the robot backs off front_backoff m.
+        self.declare_parameter('front_close', 0.15)          # m beyond the front edge
+        self.declare_parameter('front_close_s', 0.5)         # s it must stay that close
+        self.declare_parameter('front_backoff', 0.15)        # m reversed
+        self.declare_parameter('front_clouds', ['/depth_obstacles/camera1', '/depth_obstacles/camera2'])
+        self.front_seen = {}                                 # cloud topic -> (time, close?)
+        self.front_since = None
+        self.front_cooldown = 0.0
+        self.pending_backoff = False
+        for topic in p('front_clouds'):
+            self.create_subscription(PointCloud2, topic, lambda m, t=topic: self.on_front_cloud(t, m),
+                                     qos_profile_sensor_data)
+        self.create_timer(0.1, self.front_watchdog)
         self.cmd_pub = SafeCmd(self)
         self.get_logger().info(
             f'Explore mode: no map. {len(self.sweep)} sweep points; tags are found during the run.')
@@ -498,8 +520,10 @@ class ExploreVisitor(TagVisitor):
     def spin_scan(self):
         """One full turn in place with the camera on."""
         speed = float(self.get_parameter('spin_speed').value)
-        if not self.spin_is_clear():
-            self.back_out(0.25)                           # make room before turning
+        if not self.spin_is_clear():                      # make room before turning: forward
+            if not self.turn_and_step('cramped before a scan spin', step=0.25) \
+                    and self.front_close_now():
+                self.reverse_gently(float(self.get_parameter('front_backoff').value))
         start = self.pose2d(self.odom_frame)
         if start is None:
             return
@@ -525,6 +549,269 @@ class ExploreVisitor(TagVisitor):
     def on_scan(self, msg):
         r = [x for x in msg.ranges if msg.range_min <= x <= msg.range_max]
         self.min_range = min(r) if r else None
+        self.last_scan = msg
+
+    def rear_clearance(self):
+        """Free distance straight behind the robot's back edge (lidar, robot-width band),
+        or None if unknown. The lidar only sees table BASES: tabletops overhang them, so the
+        caller keeps an extra margin."""
+        msg = getattr(self, 'last_scan', None)
+        if msg is None:
+            return None
+        try:
+            tf = self.tf_buffer.lookup_transform(self.base_frame, msg.header.frame_id, Time())
+        except tf2_ros.TransformException:
+            return None
+        r = np.asarray(msg.ranges, dtype=float)
+        a = msg.angle_min + np.arange(len(r)) * msg.angle_increment
+        ok = np.isfinite(r) & (r >= msg.range_min) & (r <= msg.range_max)
+        pts = np.stack([r[ok] * np.cos(a[ok]), r[ok] * np.sin(a[ok]), np.zeros(ok.sum())], 1)
+        R = quat_to_matrix(tf.transform.rotation)
+        t = tf.transform.translation
+        pts = pts @ R.T + np.array([t.x, t.y, t.z])
+        rear_edge = float(self.get_parameter('rear_edge').value)
+        half_w = float(self.get_parameter('half_width').value) + 0.05
+        behind = pts[(pts[:, 0] < -rear_edge + 0.02) & (np.abs(pts[:, 1]) < half_w)]
+        if not len(behind):
+            return 4.0
+        return float((-behind[:, 0]).min() - rear_edge)
+
+    def back_out(self, distance, speed=None):
+        """Replaces task_solution's reverse (0.3 m/s, blind to tabletops behind):
+          * after a photo, or when Nav2 is stuck: turn in place to the most open direction
+            and step forward (the mast stays put while turning, the cameras then look where
+            the robot drives); only if nothing is open: a short, gentle, checked reverse;
+          * line-up retry and anything else: a short (<= 0.2 m), gentle, checked reverse."""
+        n = len(self.referee.reported)
+        after_photo = n > getattr(self, '_reported_seen', 0)
+        self._reported_seen = n
+        stuck = abs(distance - float(self.get_parameter('back_out_distance').value)) < 1e-6
+        if after_photo:
+            self.turn_around_after_photo()
+            return
+        if stuck and self.turn_and_step('navigation stuck'):
+            return
+        if self.front_close_now():                          # only reason to reverse
+            self.reverse_gently(float(self.get_parameter('front_backoff').value), speed)
+
+    # ------------------------------------------------ front camera: reverse only if blocked
+    def on_front_cloud(self, topic, m):
+        """depth_obstacles clouds are in the base frame (x forward, y left, z up)."""
+        close = False
+        if m.width * m.height > 0:
+            p = np.frombuffer(bytes(m.data), dtype=np.float32).reshape(-1, m.point_step // 4)[:, :3]
+            front = 0.21                                     # m, base centre to front edge
+            near = float(self.get_parameter('front_close').value)
+            half_w = float(self.get_parameter('half_width').value) + 0.05
+            close = bool(((p[:, 0] > front - 0.02) & (p[:, 0] < front + near)
+                          & (np.abs(p[:, 1]) < half_w)).any())
+        self.front_seen[topic] = (time.monotonic(), close)
+
+    def front_close_now(self, max_age=0.5):
+        now = time.monotonic()
+        return any(c and now - t <= max_age for t, c in self.front_seen.values())
+
+    def front_watchdog(self):
+        """While Nav2 drives: something too close in front for front_close_s -> stop Nav2;
+        the run thread then backs off (after_nav), and navigation carries on from there."""
+        now = time.monotonic()
+        if not getattr(self, '_ready', False) or not self.cmd_pub.nav_active() or self.pending_backoff:
+            self.front_since = None
+            return
+        if not self.front_close_now():
+            self.front_since = None
+            return
+        if self.front_since is None:
+            self.front_since = now
+            return
+        if now - self.front_since >= float(self.get_parameter('front_close_s').value) \
+                and now >= self.front_cooldown:
+            self.get_logger().warn('Front camera: obstacle too close ahead (e.g. a tabletop); '
+                                   'stopping Nav2 to back off a little.')
+            self.pending_backoff = True
+            self.front_cooldown = now + 8.0
+            self.front_since = None
+            self.cancel_all_nav()
+
+    def after_nav(self):
+        if self.pending_backoff:
+            self.pending_backoff = False
+            self.reverse_gently(float(self.get_parameter('front_backoff').value))
+
+    def navigate(self, *args, **kwargs):
+        result = super().navigate(*args, **kwargs)
+        self.after_nav()
+        return result
+
+    def goto(self, *args, **kwargs):
+        try:
+            return self.goto_nav2(*args, **kwargs)
+        finally:
+            self.after_nav()
+
+    def turn_around_after_photo(self, step=0.3):
+        """After a reported tag: turn 180 deg on the spot (map heading, so odometry's turn
+        error does not matter), then step forward if the lidar shows room."""
+        # task_solution's visit() switched detection off before the photo: switch it back on,
+        # or nothing seen during the turn and the sweep is recorded
+        self.set_detecting(True)
+        self.clear_tag_before_turn()
+        frame = self.map_frame if self.pose2d(self.map_frame) is not None else self.odom_frame
+        me = self.pose2d(frame)
+        if me is None:
+            return
+        target = wrap(me[2] + math.pi)
+        self.get_logger().info('Leaving the tag: turning 180 deg.')
+        ok = self.turn_by_odom(target, tol=0.1, frame=frame)
+        for _ in range(2):                                 # let the map heading catch up, then trim
+            if not ok:
+                break
+            time.sleep(0.6)
+            me = self.pose2d(frame)
+            if me is None or abs(wrap(target - me[2])) < math.radians(5):
+                break
+            ok = self.turn_by_odom(target, tol=0.1, frame=frame)
+        if not ok:
+            self.get_logger().warn('Leaving the tag: the 180 deg turn was blocked; Nav2 takes over.')
+            return
+        ahead = [f for a, f in self.open_directions() if abs(a) < 1e-6]
+        front = 0.21
+        if ahead and ahead[0] >= front + step + 0.35:
+            self.drive_straight(step)
+        self.sweep_here()
+
+    def clear_tag_before_turn(self, min_centre=0.55, cam_behind=0.05):
+        """The rear corners swing 0.38 m from the centre while turning. If the photo was taken
+        with the robot centre closer than min_centre to the tag, back off the difference
+        (at most 0.12 m, gentle, checked behind) so the turn keeps >= 0.17 m clearance."""
+        if not self.referee.reported:
+            return
+        with self.lock:
+            det = self.detections.get(self.referee.reported[-1])
+        if det is None or (self.now() - det[0]) > Duration(seconds=8.0):
+            return
+        tvec, n = np.asarray(det[1], float), np.asarray(det[2], float)
+        centre = float(-tvec @ n) - cam_behind               # camera sits behind the centre
+        if centre < min_centre:
+            back = min(0.12, min_centre - centre)
+            self.get_logger().info(f'Tag only {centre:.2f} m from the robot centre: backing off '
+                                   f'{back:.2f} m before turning.')
+            self.reverse_gently(back)
+
+    def sweep_here(self):
+        """Full 360 deg turn on the spot with detection on, recording every tag in view (no
+        early stop). Skipped when every tag still to visit is already known."""
+        missing = [t for t in self.referee.remaining_tags if not self.known(t)]
+        if not missing:
+            self.get_logger().info('Sweep skipped: all remaining tags are known.')
+            return
+        self.set_detecting(True)
+        if not self.spin_is_clear():
+            self.turn_and_step('cramped before a sweep', step=0.25)
+        speed = float(self.get_parameter('spin_speed').value)
+        start = self.pose2d(self.odom_frame)
+        if start is None:
+            return
+        turned, last = 0.0, start[2]
+        end = time.monotonic() + 2 * math.pi / speed + 10.0
+        cmd = Twist()
+        cmd.angular.z = speed
+        while rclpy.ok() and self.referee.running and time.monotonic() < end and turned < 2 * math.pi:
+            me = self.pose2d(self.odom_frame)
+            if me is not None:
+                turned += abs(wrap(me[2] - last))
+                last = me[2]
+            self.cmd_pub.publish(cmd)
+            time.sleep(0.05)
+        self.stop()
+        self.get_logger().info(f'Sweep after the tag: turned {math.degrees(turned):.0f} deg; '
+                               f'looking for {missing}; known: {sorted(self.tags)}.')
+
+    def open_directions(self, step_deg=30):
+        """[(angle rad in the robot frame, free m ahead in a robot-wide corridor)] from the
+        lidar, or [] if there is no scan."""
+        msg = getattr(self, 'last_scan', None)
+        if msg is None:
+            return []
+        try:
+            tf = self.tf_buffer.lookup_transform(self.base_frame, msg.header.frame_id, Time())
+        except tf2_ros.TransformException:
+            return []
+        r = np.asarray(msg.ranges, dtype=float)
+        a = msg.angle_min + np.arange(len(r)) * msg.angle_increment
+        ok = np.isfinite(r) & (r >= msg.range_min) & (r <= msg.range_max)
+        pts = np.stack([r[ok] * np.cos(a[ok]), r[ok] * np.sin(a[ok]), np.zeros(ok.sum())], 1)
+        R = quat_to_matrix(tf.transform.rotation)
+        t = tf.transform.translation
+        pts = (pts @ R.T + np.array([t.x, t.y, t.z]))[:, :2]
+        half_w = float(self.get_parameter('half_width').value) + 0.05
+        out = []
+        for ang in np.radians(np.arange(-180, 180, step_deg)):
+            d = np.array([math.cos(ang), math.sin(ang)])
+            along = pts @ d
+            lateral = np.abs(pts @ np.array([-d[1], d[0]]))
+            blk = along[(along > 0) & (lateral < half_w)]
+            out.append((float(ang), float(blk.min()) if len(blk) else 4.0))
+        return out
+
+    def turn_and_step(self, why, step=0.3):
+        """Turn in place to the most open direction (small turns preferred) and drive
+        forward `step` m. False if no direction has room (caller then reverses gently)."""
+        front = 0.21                                         # m, base centre to front edge
+        need = front + step + 0.35
+        dirs = [(a, f) for a, f in self.open_directions() if f >= need]
+        if not dirs:
+            return False
+        ang, free = max(dirs, key=lambda af: min(af[1], 2.5) - 0.6 * abs(af[0]) / math.pi)
+        frame = self.map_frame if self.pose2d(self.map_frame) is not None else self.odom_frame
+        me = self.pose2d(frame)
+        if me is None:
+            return False
+        self.get_logger().info(f'{why}: turning {math.degrees(ang):+.0f} deg to open space '
+                               f'({free:.1f} m free) and stepping forward instead of reversing.')
+        if abs(ang) > math.radians(10) and not self.turn_by_odom(me[2] + ang, tol=0.1, frame=frame):
+            return False
+        self.drive_straight(min(step, free - front - 0.35))
+        return True
+
+    def reverse_gently(self, distance, speed=None):
+        """Gentle reverse: ramps up and down, and never reverses further than the lidar
+        clearance behind minus a margin for overhanging tabletops the lidar cannot see.
+        The collision monitor still applies."""
+        speed = float(self.get_parameter('back_out_speed').value) if speed is None else min(
+            float(speed), float(self.get_parameter('back_out_speed').value))
+        margin = float(self.get_parameter('back_out_margin').value)
+        clear = self.rear_clearance()
+        if clear is not None:
+            room = clear - margin
+            if room < 0.05:
+                self.get_logger().warn(f'Not reversing: only {clear:.2f} m free behind '
+                                       f'(keeping {margin:.2f} m for tabletops).')
+                return
+            if room < distance:
+                self.get_logger().info(f'Reversing {room:.2f} m instead of {distance:.2f} m '
+                                       f'({clear:.2f} m free behind).')
+                distance = room
+        start = self.pose2d(self.odom_frame)
+        if start is None or distance <= 0.0:
+            return
+        accel = 0.3                                          # m/s^2 up and down
+        end = time.monotonic() + distance / speed + 6.0
+        v = 0.0
+        cmd = Twist()
+        while rclpy.ok() and self.referee.running and time.monotonic() < end:
+            me = self.pose2d(self.odom_frame)
+            if me is None:
+                break
+            left = distance - math.hypot(me[0] - start[0], me[1] - start[1])
+            if left <= 0.01:
+                break
+            target = min(speed, max(0.04, math.sqrt(2 * accel * left)))   # brake before the end
+            v = min(target, v + accel * 0.05)
+            cmd.linear.x = -v
+            self.cmd_pub.publish(cmd)
+            time.sleep(0.05)
+        self.stop()
 
     def spin_is_clear(self):
         c = float(self.get_parameter('spin_clearance').value)
@@ -534,7 +821,7 @@ class ExploreVisitor(TagVisitor):
         t = getattr(self, 'current_target', None)
         return t is not None and self.known(t)
 
-    def goto(self, x, y, stop_when_known=True, interrupt_on_new_tag=False, timeout=None):
+    def goto_nav2(self, x, y, stop_when_known=True, interrupt_on_new_tag=False, timeout=None):
         """Nav2 to a sweep point (any heading). Stops early if the target tag is found
         or the robot stops making progress. Returns when done; never raises."""
         goal = NavigateToPose.Goal()
@@ -925,6 +1212,7 @@ class ExploreVisitor(TagVisitor):
             log.info(f'Run started. Order {order}. Scanning from the start position.')
             self.current_target = order[0] if order else None
             self.set_detecting(True)
+            self._reported_seen = len(self.referee.reported)
             self.opening_moves()
             self.spin_scan()
             for tag in order:
@@ -932,14 +1220,22 @@ class ExploreVisitor(TagVisitor):
                     break
                 if tag in self.referee.reported:
                     continue
-                if not self.known(tag) and not self.explore_until_known(tag):
-                    log.warn(f'Tag {tag}: not found after the whole sweep; skipping it for now.')
-                    continue
-                self.close_in(tag)
-                self.visit(tag)
-                self.set_detecting(True)                   # keep recording tags afterwards
-                if tag not in self.referee.reported and not getattr(self, 'align_saw_tag', True):
-                    self.forget(tag)
+                # try the tag whose turn it is twice before moving on (keeps the order);
+                # the positions of all other tags are kept
+                attempts = max(1, int(self.get_parameter('visit_attempts').value))
+                for attempt in range(1, attempts + 1):
+                    if not self.referee.running or tag in self.referee.reported:
+                        break
+                    if not self.known(tag) and not self.explore_until_known(tag):
+                        log.warn(f'Tag {tag}: not found after the whole sweep; skipping it for now.')
+                        break
+                    if attempt > 1:
+                        log.warn(f'Tag {tag}: trying again [attempt {attempt}/{attempts}].')
+                    self.close_in(tag)
+                    self.visit(tag)
+                    self.set_detecting(True)               # keep recording tags afterwards
+                    if tag not in self.referee.reported and not getattr(self, 'align_saw_tag', True):
+                        self.forget(tag)                   # only this tag: it was not there
             self.stop()
             for tag in list(self.referee.remaining_tags):  # second pass while time is left
                 left = self.referee.time_left_s

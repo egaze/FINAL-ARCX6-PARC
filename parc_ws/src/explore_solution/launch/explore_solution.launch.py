@@ -42,7 +42,7 @@ from launch_ros.actions import Node
 
 RES = 0.05
 # robot:=true start: the robot starts in a corner of the arena, so it first drives out of it
-ROBOT_OPENING = 'forward 3.0, left 90, forward 3.0'
+ROBOT_OPENING = 'forward 3.0, left 90, forward 4.3'
 
 
 def arena_map(back, front, left, right):
@@ -222,6 +222,10 @@ def launch_setup(context):
                          # message type as the Nav2 chain in this mode
                          'stamped_cmd_vel': robot,
                          'opening': opening,
+                         # approach region 0.6 m from the tag (was 0.75): with a table in front of
+                         # a tag (0.93 m to the tabletop in the test world) 0.75 m left the robot's
+                         # centre inside its footprint margin of the tabletop; the photo pose is 0.5 m
+                         'approach_distance': 0.6,
                          'image_topic': f'/{cam_ns}/image_raw',
                          'camera_info_topic': f'/{cam_ns}/camera_info',
                          'detections_topic': f'/{cam_ns}/detections',
