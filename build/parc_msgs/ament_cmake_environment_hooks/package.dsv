@@ -1,4 +1,0 @@
-source;share/parc_msgs/local_setup.bash
-source;share/parc_msgs/local_setup.dsv
-source;share/parc_msgs/local_setup.sh
-source;share/parc_msgs/local_setup.zsh

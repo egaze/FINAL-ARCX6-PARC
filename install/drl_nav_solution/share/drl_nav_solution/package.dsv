@@ -1,9 +1,0 @@
-source;share/drl_nav_solution/hook/pythonpath.ps1
-source;share/drl_nav_solution/hook/pythonpath.dsv
-source;share/drl_nav_solution/hook/pythonpath.sh
-source;share/drl_nav_solution/hook/ament_prefix_path.ps1
-source;share/drl_nav_solution/hook/ament_prefix_path.dsv
-source;share/drl_nav_solution/hook/ament_prefix_path.sh
-source;../../build/drl_nav_solution/share/drl_nav_solution/hook/pythonpath_develop.ps1
-source;../../build/drl_nav_solution/share/drl_nav_solution/hook/pythonpath_develop.dsv
-source;../../build/drl_nav_solution/share/drl_nav_solution/hook/pythonpath_develop.sh

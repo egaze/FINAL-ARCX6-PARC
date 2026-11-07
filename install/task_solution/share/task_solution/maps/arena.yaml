@@ -1,8 +1,0 @@
-# Map used by task_solution.launch.py by default. Currently: seed 7 (mapped 2026-11-05).
-image: nov5_map_save.pgm
-mode: trinary
-resolution: 0.050
-origin: [-1.961, -3.542, 0]
-negate: 0
-occupied_thresh: 0.65
-free_thresh: 0.196

@@ -1,2 +1,0 @@
-[console_scripts]
-drl_visitor = drl_nav_solution.drl_visitor:main

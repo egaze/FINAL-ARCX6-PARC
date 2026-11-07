@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: task-solution
-Version: 0.0.0
-Summary: ARCX6 PARC 2026 solution: SLAM mapping, AMCL + Nav2 navigation, AprilTag visits and the referee interface.
-Maintainer: ARCX6
-Maintainer-email: eyiramgaze@gmail.com
-License: TODO: License declaration
-Provides-Extra: test

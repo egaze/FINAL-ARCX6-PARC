@@ -1,3 +1,0 @@
-[console_scripts]
-example_team = parc_referee.example_team:main
-referee = parc_referee.referee_node:main

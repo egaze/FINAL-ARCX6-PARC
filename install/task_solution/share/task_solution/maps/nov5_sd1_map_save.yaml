@@ -1,7 +1,0 @@
-image: nov5_sd1_map_save.pgm
-mode: trinary
-resolution: 0.050
-origin: [-1.462, -3.560, 0]
-negate: 0
-occupied_thresh: 0.65
-free_thresh: 0.196

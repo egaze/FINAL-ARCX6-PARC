@@ -1,7 +1,0 @@
-Metadata-Version: 2.1
-Name: parc-referee
-Version: 1.0.0
-Summary: Referee, timer and dashboard for the PARC 2026 Real World Phase.
-Maintainer: PARC Organisers
-Maintainer-email: info@parcrobotics.org
-License: Apache-2.0

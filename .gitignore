@@ -7,5 +7,11 @@ parc_ws/log/
 __pycache__/
 *.pyc
 
+models/
+
+build 
+install
+log
+
 # Editor
 .vscode/browse.vc.db*
