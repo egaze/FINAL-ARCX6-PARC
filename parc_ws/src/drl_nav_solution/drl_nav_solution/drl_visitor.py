@@ -66,7 +66,7 @@ class DrlVisitor(ExploreVisitor):
         self.declare_parameter('driver', 'nav2')
         self.declare_parameter('nav2_fallback', True)
         self.declare_parameter('memory_s', P.MEMORY_S)      # s of remembered scan points
-        self.declare_parameter('explorer', 'view')          # 'view' or 'sweep'
+        self.declare_parameter('explorer', 'sweep')        # 'view' or 'sweep'
         self.declare_parameter('arena_bounds', [-1.0, 5.0, -3.5, 3.5])   # start-pose frame
         self.declare_parameter('view_range', 2.8)           # m the tag detector surely decodes at
         self.declare_parameter('view_half_fov_deg', 38.0)
